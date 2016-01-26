@@ -42,10 +42,10 @@ module Sinatra
         service.get '/newsFeed/:age' do
           content_type :json
           days = params['age']
-          puts "===================== days: #{days}"
+          WorkflowLogger.logger.info "WORKFLOW API | getting news feed for the past #{days} days..."
           begin
-            logs = Logging.get_latest_logs(days)
-            logs.to_json
+            news = Logging.get_latest_logs(days)
+            news.to_json
           rescue NotFoundError
             status 404
           rescue

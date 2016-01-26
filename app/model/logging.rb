@@ -1,5 +1,7 @@
 require 'mongoid'
 require "#{File.dirname(__FILE__)}/../data/news_feed"
+require "#{File.dirname(__FILE__)}/../util/workflow_logger"
+require "#{File.dirname(__FILE__)}/../util/workflow_api_config"
 
 class Logging
   include Mongoid::Document
@@ -16,39 +18,31 @@ class Logging
 
   # db.logging.find().sort( { "timeStamp": -1 } )
   def self.get_latest_logs(age_by_day)
-
     news_feed = []
 
-    (0..10).each do |i|
-      news_feed << NewsFeed.new('ECOG', Time.now, 1, 'Someone did something')
+    WorkflowLogger.logger.info "Logging | Getting logs in the past #{age_by_day} days"
+
+    logs = Logging.where(:timeStamp.gte => (Date.today - age_by_day.to_i))
+               # .order_by(:timeStamp, :desc)
+
+    WorkflowLogger.logger.debug "Logging | Getting #{logs.count} logs meeting criteria"
+    count = 0
+    logs.each do |log|
+      puts log.timeStamp.to_s + '|' + log.message
+
+      age =self.calculate_age(log.timeStamp)
+      news_feed << NewsFeed.new(log.site, log.timeStamp, age, log.message)
+      count += 1
+
+        # debug only
+      # break if (count > 10)
     end
-    # puts "================ in get_latest_logs"
-    # logs = Logging.order_by(:timeStamp => 'desc')
-    #
-    # puts "=========== age_by_day: #{age_by_day}"
-    #
-    # threshold = Time.now - 1.day
-    # puts "========== threshold: #{threshold}"
-    # latest_logs = []
-    # count = 0
-    #
-    # puts "Got #{logs.count} logs"
-    # logs.each do |log|
-    #   puts "log: #{log.to_json}"
-    #   puts log.timeStamp.to_s + '|' + log.message
-    #   if (!log.timeStamp.nil? && log.timeStamp > threshold)
-    #     actor = "Unknow"
-    #     news_feed << NewsFeed.new(actor, log.timeStamp, 1, log.message)
-    #     count += 1
-    #
-    #     break if (count > 10)
-    #   end
-    #
-    # end
-    #
-    # puts "got this"
-    puts news_feed.to_json
+
     news_feed
   end
 
+  def self.calculate_age(timestamp)
+    delta = (Date.today - timestamp)
+    delta.to_i
+  end
 end
