@@ -71,6 +71,16 @@ module Sinatra
           end
         end
 
+        service.get '/pendingPatientAssignments' do
+          content_type :json
+          begin
+            pending_assignments = Patient.get_patients_with_pending_patient_assignment
+            pending_assignments.to_json
+          rescue => e
+            WorkflowLogger.logger.error "WORKFLOW API | Got error while getting pending patient assignments: #{e.message}"
+            status 500
+          end
+        end
       end
 
     end
