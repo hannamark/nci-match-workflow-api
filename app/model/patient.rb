@@ -1,7 +1,7 @@
 require 'mongoid'
 
-require "#{File.dirname(__FILE__)}/../util/drug_combo_helper"
 require "#{File.dirname(__FILE__)}/../dto/pending_variant_report"
+require "#{File.dirname(__FILE__)}/../util/drug_combo_helper"
 
 class Patient
   include Mongoid::Document
@@ -13,8 +13,6 @@ class Patient
   field :patientRejoinTriggers, type: Array
   field :patientTriggers, type: Array
   field :priorDrugs, type: Array
-
-  #embeds_many :patientRejoinTriggers, class_name: 'PatientRejoinTrigger'
 
   def add_prior_drugs(priorDrugs)
     if !priorDrugs.nil? && priorDrugs.size > 0
