@@ -1,5 +1,5 @@
 require 'mongoid'
-require "#{File.dirname(__FILE__)}/../data/news_feed"
+require "#{File.dirname(__FILE__)}/../dto/news_feed"
 require "#{File.dirname(__FILE__)}/../util/workflow_logger"
 require "#{File.dirname(__FILE__)}/../util/workflow_api_config"
 
