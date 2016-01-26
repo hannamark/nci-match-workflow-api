@@ -4,14 +4,14 @@ require 'sinatra/reloader' if development?
 require 'sinatra/base'
 require 'sinatra/config_file'
 
-require "#{File.dirname(__FILE__)}/error/not_found_error"
-require "#{File.dirname(__FILE__)}/error/rejoin_error"
 require "#{File.dirname(__FILE__)}/dto/dashboard_statistics"
-require "#{File.dirname(__FILE__)}/model/patient"
 require "#{File.dirname(__FILE__)}/dto/patient_assignment_queue_message"
 require "#{File.dirname(__FILE__)}/dto/transaction_message"
 require "#{File.dirname(__FILE__)}/dto/version"
+require "#{File.dirname(__FILE__)}/error/not_found_error"
+require "#{File.dirname(__FILE__)}/error/rejoin_error"
 require "#{File.dirname(__FILE__)}/model/logging"
+require "#{File.dirname(__FILE__)}/model/patient"
 require "#{File.dirname(__FILE__)}/queue/rabbit_mq_publisher"
 require "#{File.dirname(__FILE__)}/util/workflow_logger"
 require "#{File.dirname(__FILE__)}/validator/rejoin_matchbox_validator"
