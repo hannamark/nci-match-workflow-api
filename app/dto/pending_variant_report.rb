@@ -25,7 +25,7 @@ class PendingVariantReport
     @jobName = ngs[:ionReporterResults][:jobName] if (!ngs.nil?)
     @ngsDateReceived = ngs[:dateReceived] if (!ngs.nil?)
 
-    @daysPending = (Time.parse(d.to_s).to_i - Time.parse(@ngsDateReceived.to_s).to_i.to_i) / 60 / 60 / 24
+    @daysPending = (Time.parse(DateTime.now.to_s).to_i - Time.parse(@ngsDateReceived.to_s).to_i.to_i) / 60 / 60 / 24
     @location = get_nucleic_acids_shipping_location(biopsy, @molecularSequenceNumber) if (!biopsy.nil?)
 
     self
