@@ -14,6 +14,8 @@ class Patient
   field :patientTriggers, type: Array
   field :priorDrugs, type: Array
 
+  #embeds_many :patientRejoinTriggers, class_name: 'PatientRejoinTrigger'
+
   def add_prior_drugs(priorDrugs)
     if !priorDrugs.nil? && priorDrugs.size > 0
       updated_prior_drugs = []
@@ -39,20 +41,20 @@ class Patient
     self
   end
 
-  # def set_rejoin_date
-  #   rejoin_trigger = self['patientRejoinTriggers'][self['patientRejoinTriggers'].size - 1]
-  #   rejoin_trigger['dateRejoined'] = DateTime.now
-  #   self['patientRejoinTriggers'].pop
-  #   self['patientRejoinTriggers'] += [{
-  #       'treatmentArmId': rejoin_trigger['treatmentArmId'],
-  #       'treatmentArmVersion': rejoin_trigger['treatmentArmVersion'],
-  #       'assignmentReason': rejoin_trigger['assignmentReason'],
-  #       'dateScanned': rejoin_trigger['dateScanned'],
-  #       'dateSentToECOG': rejoin_trigger['dateSentToECOG'],
-  #       'dateRejoined': rejoin_trigger['dateRejoined']
-  #   }]
-  #   self
-  # end
+  def set_rejoin_date
+    rejoin_trigger = self['patientRejoinTriggers'][self['patientRejoinTriggers'].size - 1]
+    rejoin_trigger['dateRejoined'] = DateTime.now
+    self['patientRejoinTriggers'].pop
+    self['patientRejoinTriggers'] += [{
+        'treatmentArmId': rejoin_trigger['treatmentArmId'],
+        'treatmentArmVersion': rejoin_trigger['treatmentArmVersion'],
+        'assignmentReason': rejoin_trigger['assignmentReason'],
+        'dateScanned': rejoin_trigger['dateScanned'],
+        'dateSentToECOG': rejoin_trigger['dateSentToECOG'],
+        'dateRejoined': rejoin_trigger['dateRejoined']
+    }]
+    self
+  end
 
   def self.get_patients_with_pending_variant_report
     formatted_patients = []
