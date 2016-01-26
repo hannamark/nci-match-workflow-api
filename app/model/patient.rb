@@ -1,8 +1,9 @@
 require 'mongoid'
 
-require "#{File.dirname(__FILE__)}/../util/drug_combo_helper"
 require "#{File.dirname(__FILE__)}/../dto/pending_variant_report"
 require "#{File.dirname(__FILE__)}/../dto/pending_patient_assignment"
+require "#{File.dirname(__FILE__)}/../util/drug_combo_helper"
+
 
 class Patient
   include Mongoid::Document
