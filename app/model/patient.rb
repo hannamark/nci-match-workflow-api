@@ -2,6 +2,7 @@ require 'mongoid'
 
 require "#{File.dirname(__FILE__)}/../util/drug_combo_helper"
 require "#{File.dirname(__FILE__)}/../dto/pending_variant_report"
+require "#{File.dirname(__FILE__)}/../dto/pending_patient_assignment"
 
 class Patient
   include Mongoid::Document
@@ -39,20 +40,20 @@ class Patient
     self
   end
 
-  # def set_rejoin_date
-  #   rejoin_trigger = self['patientRejoinTriggers'][self['patientRejoinTriggers'].size - 1]
-  #   rejoin_trigger['dateRejoined'] = DateTime.now
-  #   self['patientRejoinTriggers'].pop
-  #   self['patientRejoinTriggers'] += [{
-  #       'treatmentArmId': rejoin_trigger['treatmentArmId'],
-  #       'treatmentArmVersion': rejoin_trigger['treatmentArmVersion'],
-  #       'assignmentReason': rejoin_trigger['assignmentReason'],
-  #       'dateScanned': rejoin_trigger['dateScanned'],
-  #       'dateSentToECOG': rejoin_trigger['dateSentToECOG'],
-  #       'dateRejoined': rejoin_trigger['dateRejoined']
-  #   }]
-  #   self
-  # end
+  def set_rejoin_date
+    rejoin_trigger = self['patientRejoinTriggers'][self['patientRejoinTriggers'].size - 1]
+    rejoin_trigger['dateRejoined'] = DateTime.now
+    self['patientRejoinTriggers'].pop
+    self['patientRejoinTriggers'] += [{
+        'treatmentArmId': rejoin_trigger['treatmentArmId'],
+        'treatmentArmVersion': rejoin_trigger['treatmentArmVersion'],
+        'assignmentReason': rejoin_trigger['assignmentReason'],
+        'dateScanned': rejoin_trigger['dateScanned'],
+        'dateSentToECOG': rejoin_trigger['dateSentToECOG'],
+        'dateRejoined': rejoin_trigger['dateRejoined']
+    }]
+    self
+  end
 
   def self.get_patients_with_pending_variant_report
     formatted_patients = []
@@ -71,18 +72,23 @@ class Patient
     formatted_patients
   end
 
-  # def self.get_patients_with_pending_patient_assignment
-  #   formatted_patients = []
-  #   begin
-  #     patients = Patient.where('currentPatientStatus'.in => ['PENDING_CONFIRMATION', 'POTENTIAL_RULES_ISSUE'])
-  #
-  #     message = 'done'
-  #
-  #   rescue => e
-  #     puts e.message
-  #   end
-  #
-  #   formatted_patients
-  # end
+  def self.get_patients_with_pending_patient_assignment
+    formatted_patients = []
+    begin
+      # patients = Patient.where('currentPatientStatus'.in => ['PENDING_CONFIRMATION', 'POTENTIAL_RULES_ISSUE'])
+
+      patients = Patient.or([{"currentPatientStatus" => "PENDING_CONFIRMATION"}, {"currentPatientStatus" => "POTENTIAL_RULES_ISSUE"}])
+
+      patients.each do | patient |
+        formatted_patient = PendingPatientAssignment.new.create(patient)
+        formatted_patients << formatted_patient
+      end
+
+    rescue => e
+      puts e.message
+    end
+
+    formatted_patients
+  end
 
 end

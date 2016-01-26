@@ -1,0 +1,3 @@
+
+class PendingPatientAssignment
+end
