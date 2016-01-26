@@ -76,15 +76,12 @@ class Patient
   def self.get_patients_with_pending_patient_assignment
     formatted_patients = []
     begin
-      # patients = Patient.where('currentPatientStatus'.in => ['PENDING_CONFIRMATION', 'POTENTIAL_RULES_ISSUE'])
-
       patients = Patient.or([{"currentPatientStatus" => "PENDING_CONFIRMATION"}, {"currentPatientStatus" => "POTENTIAL_RULES_ISSUE"}])
 
       patients.each do | patient |
         formatted_patient = PendingPatientAssignment.new.create(patient)
         formatted_patients << formatted_patient
       end
-
     rescue => e
       puts e.message
     end
