@@ -1,7 +1,7 @@
 require 'rspec'
 require "#{File.dirname(__FILE__)}/../../../app/model/logging"
 
-describe 'My behaviour' do
+describe 'Logging behaviour' do
   before do
     # Mongoid.load!(File.dirname(__FILE__) + '/../../../config/mongoid-test.yml', :test)
 

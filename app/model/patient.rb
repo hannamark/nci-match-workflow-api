@@ -53,4 +53,21 @@ class Patient
     self
   end
 
+  def self.get_patients_with_pending_variant_report
+    formatted_patients = []
+    begin
+      patients = Patient.where('biopsies.nextGenerationSequences.status' => 'PENDING')
+      patients.each do | patient |
+        formatted = PendingVariantReport.new.create(patient)
+        formatted_patients << formatted
+      end
+    rescue => e
+      WorkflowLogger.logger.error "Patient | Error occurred while getting patients with pending variant report: #{e.message}"
+      raise e
+    end
+
+    formatted_patients.to_json
+    formatted_patients
+  end
+
 end
