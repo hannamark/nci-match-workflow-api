@@ -1,4 +1,4 @@
-require "#{File.dirname(__FILE__)}/../../../app/model/transaction_message"
+require "#{File.dirname(__FILE__)}/../../../app/dto/transaction_message"
 
 RSpec.describe TransactionMessage, '#initialize' do
   context 'with status "SUCCESS" and message "The transaction was completed successfully."' do

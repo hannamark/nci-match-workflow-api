@@ -1,4 +1,4 @@
-require "#{File.dirname(__FILE__)}/../../../app/model/patient_assignment_queue_message"
+require "#{File.dirname(__FILE__)}/../../../app/dto/patient_assignment_queue_message"
 
 RSpec.describe PatientAssignmentQueueMessage, '#initialize' do
   context 'with patient sequence number 12345' do
