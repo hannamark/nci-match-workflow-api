@@ -39,6 +39,12 @@ module Sinatra
           DashboardStatistics.new.to_json
         end
 
+        service.get '/patientRejoinTrialPendingReview' do
+          content_type :json
+          docs = Patient.where('patientRejoinTriggers.0' => { :$exists => true }).only(:patientSequenceNumber, :patientRejoinTriggers)
+          docs.to_json
+        end
+
         service.get '/newsFeed/:age' do
           content_type :json
           days = params['age']
