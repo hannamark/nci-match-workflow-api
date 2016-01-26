@@ -39,6 +39,21 @@ module Sinatra
           DashboardStatistics.new.to_json
         end
 
+        service.get '/newsFeed/:age' do
+          content_type :json
+          days = params['age']
+          puts "===================== days: #{days}"
+          begin
+            logs = Logging.get_latest_logs(days)
+            logs.to_json
+          rescue NotFoundError
+            status 404
+          rescue
+            status 500
+          end
+
+        end
+
       end
 
     end

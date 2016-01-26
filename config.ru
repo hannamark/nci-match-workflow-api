@@ -15,6 +15,11 @@ configure(:production){
   require './config/environments/production.rb'
 }
 
+configure(:test){
+  puts '===========> Running in production environment'
+  require './config/environments/test.rb'
+}
+
 if !Dir.exist? 'log'
   Dir.mkdir 'log'
 end
