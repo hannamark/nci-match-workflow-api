@@ -54,6 +54,17 @@ module Sinatra
 
         end
 
+        service.get '/pendingVariantReports' do
+          content_type :json
+          begin
+            pending_variant_reports = Patient.get_patients_with_pending_variant_report
+            pending_variant_reports.to_json
+          rescue => e
+            WorkflowLogger.logger.error "WORKFLOW API | Got error while getting pending variant reports: #{e.message}"
+            status 500
+          end
+        end
+
       end
 
     end
