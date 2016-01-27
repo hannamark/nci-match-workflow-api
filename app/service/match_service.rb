@@ -63,7 +63,8 @@ module Sinatra
         service.get '/pendingVariantReports' do
           content_type :json
           begin
-            pending_variant_reports = Patient.get_patients_with_pending_variant_report
+            puts "==================== here"
+            pending_variant_reports = PatientDao.get_patients_with_pending_variant_report
             pending_variant_reports.to_json
           rescue => e
             WorkflowLogger.logger.error "WORKFLOW API | Got error while getting pending variant reports: #{e.message}"
@@ -74,7 +75,8 @@ module Sinatra
         service.get '/pendingPatientAssignments' do
           content_type :json
           begin
-            pending_assignments = Patient.get_patients_with_pending_patient_assignment
+            puts "==================== here2"
+            pending_assignments = PatientDao.get_patients_with_pending_patient_assignment
             pending_assignments.to_json
           rescue => e
             WorkflowLogger.logger.error "WORKFLOW API | Got error while getting pending patient assignments: #{e.message}"
