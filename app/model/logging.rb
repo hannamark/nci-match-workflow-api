@@ -16,14 +16,13 @@ class Logging
   field :marker, type: String
   field :logger, type: String
 
-  # db.logging.find().sort( { "timeStamp": -1 } )
   def self.get_latest_logs(age_by_day)
     news_feed = []
 
     WorkflowLogger.logger.info "Logging | Getting logs in the past #{age_by_day} days"
 
     logs = Logging.where(:timeStamp.gte => (Date.today - age_by_day.to_i))
-               # .order_by(:timeStamp, :desc)
+    # .order_by(:timeStamp, :desc)
 
     WorkflowLogger.logger.debug "Logging | Getting #{logs.count} logs meeting criteria"
     count = 0
@@ -34,7 +33,7 @@ class Logging
       news_feed << NewsFeed.new(log.site, log.timeStamp, age, log.message)
       count += 1
 
-        # debug only
+      # debug only
       # break if (count > 10)
     end
 
