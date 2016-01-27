@@ -3,7 +3,7 @@ class DashboardStatistics
               :number_of_pending_variant_reports, :number_of_pending_assignment_reports
 
   def initialize
-    @number_of_patients = Patient.count
+    @number_of_patients = Patient.where(:currentPatientStatus.ne => 'OFF_TRIAL_REGISTRATION_ERROR').count
     @number_of_screened_patients = Patient.where('biopsies.nextGenerationSequences.status' => 'CONFIRMED').count
     @number_of_patients_with_treatment = Patient.where(:currentPatientStatus => 'ON_TREATMENT_ARM').count
     @number_of_pending_variant_reports = Patient.where('biopsies.nextGenerationSequences.status' => 'PENDING').count
