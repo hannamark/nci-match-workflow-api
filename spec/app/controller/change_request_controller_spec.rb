@@ -1,3 +1,4 @@
+require "#{File.dirname(__FILE__)}/../../../app/controller/application_controller"
 require "#{File.dirname(__FILE__)}/../../../app/controller/change_request_controller"
 require "#{File.dirname(__FILE__)}/../../spec_helper"
 require 'rack/test'

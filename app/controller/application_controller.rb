@@ -1,4 +1,10 @@
 require "#{File.dirname(__FILE__)}/../util/workflow_logger"
+require "#{File.dirname(__FILE__)}/../util/workflow_api_config"
+require 'sinatra'
+require 'mongo'
+require 'sinatra/config_file'
+require 'sinatra/reloader'
+require 'logger'
 class ApplicationController < Sinatra::Base
   register Sinatra::ConfigFile, Sinatra::Reloader
 
