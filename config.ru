@@ -33,5 +33,5 @@ logger = ::Logger.new(logfile, 'weekly')
 
 use Rack::CommonLogger, logger
 
-require './app/workflow_api.rb'
-run WorkflowApi
+require './app/workflow_app.rb'
+run Application::WorkflowApi
