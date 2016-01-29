@@ -60,7 +60,6 @@ module Routes
       get '/pendingVariantReports' do
         content_type :json
         begin
-          puts "==================== here"
           pending_variant_reports = PatientDao.get_patients_with_pending_variant_report
           pending_variant_reports.to_json
         rescue => e
@@ -72,7 +71,6 @@ module Routes
       get '/pendingPatientAssignments' do
         content_type :json
         begin
-          puts "==================== here2"
           pending_assignments = PatientDao.get_patients_with_pending_patient_assignment
           pending_assignments.to_json
         rescue => e
@@ -80,7 +78,7 @@ module Routes
           status 500
         end
       end
-    end
-
   end
+
+end
 

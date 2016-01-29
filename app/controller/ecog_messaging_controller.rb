@@ -60,7 +60,6 @@ module Routes
           body TransactionMessage.new('FAILURE', "Matchbox Server Internal Error. Message: #{error.message}").to_json
         end
       end
-
   end
 end
 
