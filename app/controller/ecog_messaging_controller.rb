@@ -61,8 +61,7 @@ module Routes
         end
       end
 
-    end
-
   end
+end
 
 
