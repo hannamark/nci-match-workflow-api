@@ -14,7 +14,7 @@ class MatchAPIClient
     if (patient_sequence_number.nil? || !patient_sequence_number.kind_of?(String) || patient_sequence_number.empty?) || (analysis_id.nil? || !analysis_id.kind_of?(String) || analysis_id.empty?)
       raise ArgumentError, 'Patient sequence number and analysis id cannot be nil or empty.'
     end
-    url = build_match_context_url + "/common/rs/simulateAssignmentByPatient?patientId=#{patient_sequence_number}&analysisId=#{analysis_id}"
+    url = build_match_context_url + "/common/rs/simulateAssignmentByPatient?patientId=#{patient_sequence_number}&analysisId=#{analysis_id}&tieBreakerOptions=0"
     JSON.parse(RestClient.get url, {:accept => :json})
   end
 
