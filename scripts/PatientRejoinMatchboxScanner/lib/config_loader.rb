@@ -83,6 +83,6 @@ class ConfigLoader
     @redacted_config[key]['password'] = '********'
   end
 
-  private :load_database_config, :load_match_api_config, :load_ecog_api_config, :load_yml_file, :load_auth_credentials, :load_api_config
+  private :load_database_config, :load_yml_file, :load_auth_credentials, :load_api_config
 
 end
