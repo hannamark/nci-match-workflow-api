@@ -20,8 +20,19 @@ class ConfigLoader
     @redacted_config['log_filepath'] = @config['log_filepath']
 
     load_database_config(scanner_config, environment)
-    load_match_api_config(scanner_config, environment)
-    load_ecog_api_config(scanner_config, environment)
+    set_config(scanner_config, environment, 'match_api_config_path' ,'match_api')
+    set_config(scanner_config, environment, 'ecog_api_config_path', 'ecog_api')
+  end
+
+  def set_config(scanner_config, environment, config_path, config_key)
+    if scanner_config.has_key?(config_path)
+      ymlFile = load_yml_file(scanner_config[config_path], environment)
+      credentials = load_auth_credentials(ymlFile)
+      store_config(config_key, load_api_config(ymlFile), credentials)
+    else
+      @config[config_key] = nil
+      redacted_config[config_key] = nil
+    end
   end
 
   def load_database_config(scanner_config, environment)
@@ -32,28 +43,6 @@ class ConfigLoader
     else
       @config['database'] = nil
       @redacted_config['database'] = nil
-    end
-  end
-
-  def load_match_api_config(scanner_config, environment)
-    if scanner_config.has_key?('match_api_config_path')
-      match_api_config = load_yml_file(scanner_config['match_api_config_path'], environment)
-      credentials = load_auth_credentials(match_api_config)
-      store_config('match_api', load_api_config(match_api_config), credentials)
-    else
-      @config['match_api'] = nil
-      @redacted_config['match_api'] = nil
-    end
-  end
-
-  def load_ecog_api_config(scanner_config, environment)
-    if scanner_config.has_key?('ecog_api_config_path')
-      ecog_api_config = load_yml_file(scanner_config['ecog_api_config_path'], environment)
-      credentials = load_auth_credentials(ecog_api_config)
-      store_config('ecog_api', load_api_config(ecog_api_config), credentials)
-    else
-      @config['ecog_api'] = nil
-      @redacted_config['ecog_api'] = nil
     end
   end
 

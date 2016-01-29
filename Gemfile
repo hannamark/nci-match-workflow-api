@@ -21,5 +21,5 @@ group :test do
   gem 'simplecov', '0.10.0'
   gem 'simplecov-json', '0.2'
   gem 'simplecov-rcov', '0.2.3'
-  gem "codeclimate-test-reporter"
+  gem "codeclimate-test-reporter", require: nil
 end
