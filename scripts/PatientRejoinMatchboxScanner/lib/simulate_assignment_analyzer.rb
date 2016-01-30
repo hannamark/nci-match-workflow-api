@@ -28,10 +28,7 @@ class SimulateAssignmentAnalyzer
       # Patient contains no rejoin trigger so we add one to
       # capture this event that no arm is eligible for the
       # patient at this time.
-      @off_trial_patient[:patientRejoinTriggers].push({
-        :eligibleArms => [],
-        :dateScanned => DateTime.now
-      })
+      add_new_patient_rejoin_trigger([])
     else
       latest_rejoin_trigger = @off_trial_patient[:patientRejoinTriggers][@off_trial_patient[:patientRejoinTriggers].size - 1]
       if latest_rejoin_trigger[:eligibleArms].size == 0
@@ -44,10 +41,7 @@ class SimulateAssignmentAnalyzer
         # one or more arms were eligible for the patient and no arm
         # is eligible for the patient now so we add a patient rejoin
         # trigger to capture this event.
-        @off_trial_patient[:patientRejoinTriggers].push({
-          :eligibleArms => [],
-          :dateScanned => DateTime.now
-        })
+        add_new_patient_rejoin_trigger([])
       end
     end
   end
@@ -57,32 +51,27 @@ class SimulateAssignmentAnalyzer
       # Patient contains no rejoin trigger so we add one to
       # capture this event that there are eligible arms for the
       # patient at this time.
-      @off_trial_patient[:patientRejoinTriggers].push({
-        :eligibleArms => eligible_arms,
-        :dateScanned => DateTime.now
-      })
+      add_new_patient_rejoin_trigger(eligible_arms)
     else
       latest_rejoin_trigger = @off_trial_patient[:patientRejoinTriggers][@off_trial_patient[:patientRejoinTriggers].size - 1]
-      if latest_rejoin_trigger[:eligibleArms].nil? || latest_rejoin_trigger[:eligibleArms].size == 0
+      if !latest_rejoin_trigger[:dateRejoined].nil?
+        # The latest rejoin trigger has a dateRejoined property
+        # which means that the patient has rejoined the trial before
+        # so we create a new trigger to capture this event.
+        add_new_patient_rejoin_trigger(eligible_arms)
+      elsif latest_rejoin_trigger[:eligibleArms].nil? || latest_rejoin_trigger[:eligibleArms].size == 0
         # The latest rejoin trigger shows that in a previous run
         # no arm was eligible for the patient and now we found arms
         # eligible for the patient so we add a new trigger to
         # capture this event.
-        @off_trial_patient[:patientRejoinTriggers].push({
-          :eligibleArms => eligible_arms,
-          :dateScanned => DateTime.now
-        })
+        add_new_patient_rejoin_trigger(eligible_arms)
       else
-        prev_eligible_arms = latest_rejoin_trigger[:eligibleArms]
-        if !EligiblePatientSelector.is_eligible_arms_list_equal(prev_eligible_arms, eligible_arms)
+        if !EligiblePatientSelector.is_eligible_arms_list_equal(latest_rejoin_trigger[:eligibleArms], eligible_arms)
           # The latest rejoin trigger shows that in a previous run
           # there were arms eligible for the patient and now we found arms
           # eligible for the patient but the eligible arms have changed so
           # we add a new trigger to capture this event.
-          @off_trial_patient[:patientRejoinTriggers].push({
-            :eligibleArms => eligible_arms,
-            :dateScanned => DateTime.now
-          })
+          add_new_patient_rejoin_trigger(eligible_arms)
         else
           # The latest rejoin trigger shows that in a previous run
           # there were arms eligible for the patient and now we found arms
@@ -94,6 +83,13 @@ class SimulateAssignmentAnalyzer
     end
   end
 
-  private :update_trigger_with_no_eligible_arms, :update_trigger_with_eligible_arms
+  def add_new_patient_rejoin_trigger(eligible_arms)
+    @off_trial_patient[:patientRejoinTriggers].push({
+      :eligibleArms => eligible_arms,
+      :dateScanned => DateTime.now
+    })
+  end
+
+  private :update_trigger_with_no_eligible_arms, :update_trigger_with_eligible_arms, :add_new_patient_rejoin_trigger
 
 end
