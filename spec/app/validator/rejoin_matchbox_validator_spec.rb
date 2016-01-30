@@ -57,7 +57,7 @@ RSpec.describe RejoinMatchboxValidator, '#validate' do
           'patientRejoinTriggers' => [ { 'dateRejoined' => DateTime.now }, { 'dateRejoined' => DateTime.now } ]
       }
       validator = RejoinMatchboxValidator.new(patient, nil)
-      expect{ validator.validate }.to raise_error('Latest patient 1234 rejoin trigger has already been proceed, no pending rejoin trigger exist.')
+      expect{ validator.validate }.to raise_error('Latest patient 1234 rejoin trigger has already been processed, no pending rejoin trigger exist.')
     end
   end
 
@@ -67,19 +67,19 @@ RSpec.describe RejoinMatchboxValidator, '#validate' do
           'patientSequenceNumber' => '1234',
           'currentPatientStatus' => 'OFF_TRIAL_NO_TA_AVAILABLE',
           'currentStepNumber' => '0',
-          'patientRejoinTriggers' => [ {} ]
+          'patientRejoinTriggers' => [ { 'eligibleArms' => [ { 'treatmentArmId' => 'Arm1' } ] } ]
       }
       request_data = {
-          "patientSequenceNumber" => "10367",
-          "priorRejoinDrugs" => [
+          'patientSequenceNumber' => '10367',
+          'priorRejoinDrugs' => [
               {
-                  "drugs" => [
+                  'drugs' => [
                       {
-                          "drugId" => "DrugA_ID1",
-                          "name" => "DrugA_Name1"
+                          'drugId' => 'DrugA_ID1',
+                          'name' => 'DrugA_Name1'
                       },
                       {
-                          "name" => "DrugA_Name2"
+                          'name' => 'DrugA_Name2'
                       }
                   ]
               }
@@ -96,23 +96,23 @@ RSpec.describe RejoinMatchboxValidator, '#validate' do
           'patientSequenceNumber' => '1234',
           'currentPatientStatus' => 'OFF_TRIAL_NO_TA_AVAILABLE',
           'currentStepNumber' => '0',
-          'patientRejoinTriggers' => [ {} ]
+          'patientRejoinTriggers' => [ { 'eligibleArms' => [ { 'treatmentArmId' => 'Arm1' } ] } ]
       }
       request_data = {
-          "patientSequenceNumber" => "10367",
-          "priorRejoinDrugs" => [
+          'patientSequenceNumber' => '10367',
+          'priorRejoinDrugs' => [
               {
-                  "drugs" => [
+                  'drugs' => [
                       {
-                          "name" => "DrugA_Name1"
+                          'name' => 'DrugA_Name1'
                       }
                   ]
               },
               {
-                  "drugs" => [
+                  'drugs' => [
                       {
-                          "drugId" => "DrugA_ID2",
-                          "name" => "DrugA_Name2"
+                          'drugId' => 'DrugA_ID2',
+                          'name' => 'DrugA_Name2'
                       }
                   ]
               }
@@ -129,24 +129,24 @@ RSpec.describe RejoinMatchboxValidator, '#validate' do
           'patientSequenceNumber' => '1234',
           'currentPatientStatus' => 'OFF_TRIAL_NO_TA_AVAILABLE',
           'currentStepNumber' => '0',
-          'patientRejoinTriggers' => [ {} ]
+          'patientRejoinTriggers' => [ { 'eligibleArms' => [ { 'treatmentArmId' => 'Arm1' } ] } ]
       }
       request_data = {
-          "patientSequenceNumber" => "10367",
-          "priorRejoinDrugs" => [
+          'patientSequenceNumber' => '10367',
+          'priorRejoinDrugs' => [
               {
-                  "drugs" => [
+                  'drugs' => [
                       {
-                          "drugId" => "DrugA_ID1",
-                          "name" => "DrugA_Name1"
+                          'drugId' => 'DrugA_ID1',
+                          'name' => 'DrugA_Name1'
                       }
                   ]
               },
               {
-                  "drugs" => [
+                  'drugs' => [
                       {
-                          "drugId" => "DrugA_ID2",
-                          "name" => "DrugA_Name2"
+                          'drugId' => 'DrugA_ID2',
+                          'name' => 'DrugA_Name2'
                       }
                   ]
               }
