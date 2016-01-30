@@ -25,5 +25,4 @@ RSpec.describe Routes::MDAMessagingController do
     expect(last_response.status).to eq 501
   end
 
-  
 end
