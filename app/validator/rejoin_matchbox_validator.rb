@@ -34,7 +34,11 @@ class RejoinMatchboxValidator
 
     rejoin_trigger = @patient['patientRejoinTriggers'][@patient['patientRejoinTriggers'].size - 1]
     if !rejoin_trigger['dateRejoined'].nil?
-      raise RejoinError, "Latest patient #{@patient['patientSequenceNumber']} rejoin trigger has already been proceed, no pending rejoin trigger exist."
+      raise RejoinError, "Latest patient #{@patient['patientSequenceNumber']} rejoin trigger has already been processed, no pending rejoin trigger exist."
+    end
+
+    if rejoin_trigger['eligibleArms'].nil? || rejoin_trigger['eligibleArms'].size == 0
+      raise RejoinError, "Latest patient #{@patient['patientSequenceNumber']} rejoin trigger doesn't have any eligible arms."
     end
   end
 
