@@ -53,8 +53,7 @@ begin
       end
 
       if clh.options[:print].nil?
-        result = dao.update(patient_doc)
-        if result.n == 1
+        if dao.update(patient_doc).n == 1
           logger.info("SCANNER | Saved simulation analysis for patient #{patient_doc[:patientSequenceNumber]}.")
         else
           logger.info("SCANNER | Failed to save simulation analysis for patient #{patient_doc[:patientSequenceNumber]}.")
@@ -79,8 +78,7 @@ begin
       eligible_patients[:patient_docs].each do |patient_doc|
         logger.info("SCANNER | Adding/Updating patient #{patient_doc[:patientSequenceNumber]} rejoin trigger #{patient_doc[:patientRejoinTriggers][patient_doc[:patientRejoinTriggers].size - 1]} ...")
         patient_doc[:patientRejoinTriggers][patient_doc[:patientRejoinTriggers].size - 1][:dateSentToECOG] = DateTime.now
-        result = dao.update(patient_doc)
-        if result.n == 1
+        if dao.update(patient_doc).n == 1
           logger.info("SCANNER | Saved date rejoin message sent to ECOG for patient #{patient_doc[:patientSequenceNumber]}.")
         else
           logger.info("SCANNER | Failed to save date rejoin message sent to ECOG for patient  #{patient_doc[:patientSequenceNumber]}.")
