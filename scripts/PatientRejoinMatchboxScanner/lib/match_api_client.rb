@@ -1,13 +1,13 @@
 require 'rest-client'
 
+require "#{File.dirname(__FILE__)}/config_helper"
+
 class MatchAPIClient
 
   def initialize(api_config)
-    @defaults = { :scheme => 'http', :hosts => ['127.0.0.1:8080'], :context => '/match' }
-
-    @scheme = get_prop(api_config, 'scheme')
-    @hosts = get_prop(api_config, 'hosts')
-    @context = get_prop(api_config, 'context')
+    @scheme = ConfigHelper.get_prop(api_config, 'match_api', 'scheme', 'http')
+    @hosts = ConfigHelper.get_prop(api_config, 'match_api', 'hosts', ['127.0.0.1:8080'])
+    @context = ConfigHelper.get_prop(api_config, 'match_api', 'context', '/match')
   end
 
   def simulate_patient_assignment(patient_sequence_number, analysis_id)
@@ -18,17 +18,10 @@ class MatchAPIClient
     JSON.parse(RestClient.get url, {:accept => :json})
   end
 
-  def get_prop(api_config, key)
-    if !api_config.nil? && api_config.has_key?('match_api') && api_config['match_api'].has_key?(key)
-      return api_config['match_api'][key]
-    end
-    return @defaults.has_key?(key.to_sym) ? @defaults[key.to_sym] : nil
-  end
-
   def build_match_context_url
     return "#{@scheme}://#{@hosts[0]}#{@context}"
   end
 
-  private :get_prop, :build_match_context_url
+  private :build_match_context_url
 
 end

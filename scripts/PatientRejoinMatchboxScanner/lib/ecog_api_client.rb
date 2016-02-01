@@ -1,15 +1,15 @@
 require 'rest-client'
 
+require "#{File.dirname(__FILE__)}/config_helper"
+
 class EcogAPIClient
 
   def initialize(api_config)
-    @defaults = { :scheme => 'http', :hosts => ['127.0.0.1:3000'], :context => '/MatchInformaticsLayer' }
-
-    @scheme = get_prop(api_config, 'scheme')
-    @hosts = get_prop(api_config, 'hosts')
-    @context = get_prop(api_config, 'context')
-    @username = get_prop(api_config, 'username')
-    @password = get_prop(api_config, 'password')
+    @scheme = ConfigHelper.get_prop(api_config, 'ecog_api', 'scheme', 'http')
+    @hosts = ConfigHelper.get_prop(api_config, 'ecog_api', 'hosts', ['127.0.0.1:3000'])
+    @context = ConfigHelper.get_prop(api_config, 'ecog_api', 'context', '/MatchInformaticsLayer')
+    @username = ConfigHelper.get_prop(api_config, 'ecog_api', 'username', nil)
+    @password = ConfigHelper.get_prop(api_config, 'ecog_api', 'password', nil)
   end
 
   def send_patient_eligible_for_rejoin(patientSequenceNumbers)
@@ -28,17 +28,10 @@ class EcogAPIClient
         :verify_ssl => false)
   end
 
-  def get_prop(api_config, key)
-    if !api_config.nil? && api_config.has_key?('ecog_api') && api_config['ecog_api'].has_key?(key)
-      return api_config['ecog_api'][key]
-    end
-    return @defaults.has_key?(key.to_sym) ? @defaults[key.to_sym] : nil
-  end
-
   def build_ecog_context_url
     return "#{@scheme}://#{@hosts[0]}#{@context}"
   end
 
-  private :get_prop, :build_ecog_context_url
+  private :build_ecog_context_url
 
 end
