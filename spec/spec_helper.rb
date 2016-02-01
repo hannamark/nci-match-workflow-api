@@ -27,7 +27,20 @@ module RSpecMixin
   def app() Sinatra::Application end
 end
 
+require 'simplecov'
+require 'simplecov-json'
+require 'simplecov-rcov'
+
+SimpleCov.formatters = [
+    SimpleCov::Formatter::HTMLFormatter,
+    SimpleCov::Formatter::JSONFormatter,
+    SimpleCov::Formatter::RcovFormatter
+]
+
+SimpleCov.start
+
 require './config/environments/test'
+
 RSpec.configure do |config|
   config.include RSpecMixin
   # rspec-expectations config goes here. You can use an alternate
