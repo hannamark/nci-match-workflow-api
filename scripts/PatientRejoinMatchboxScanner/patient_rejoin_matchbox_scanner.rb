@@ -45,9 +45,14 @@ begin
 
       is_eligible, patient_doc = SimulateAssignmentAnalyzer.new(off_trial_patients['off_trial_patients_docs'][index], assignment_results).analyze
       if is_eligible
-        logger.info("SCANNER | Simulation found patient #{patient_doc} is eligible to rejoin trial.")
-        eligible_patients[:patient_sequence_numbers].push(patient_doc[:patientSequenceNumber])
-        eligible_patients[:patient_docs].push(patient_doc)
+        latest_rejoin_trigger = patient_doc[:patientRejoinTriggers][patient_doc[:patientRejoinTriggers].size - 1]
+        logger.info("SCANNER | Simulation found patient #{patient_doc[:patientSequenceNumber]} with rejoin trigger #{latest_rejoin_trigger} is eligible to rejoin trial.")
+        if latest_rejoin_trigger[:dateSentToECOG].nil?
+          eligible_patients[:patient_sequence_numbers].push(patient_doc[:patientSequenceNumber])
+          eligible_patients[:patient_docs].push(patient_doc)
+        else
+          logger.info("SCANNER | Simulation found patient #{patient_doc[:patientSequenceNumber]} is eligible for the same arm(s) from a previous scan, a rejoin message will not be sent to ECOG.")
+        end
       else
         logger.info("SCANNER | Simulation did not find an eligible arm for patient #{patient_doc[:patientSequenceNumber]}.")
       end
