@@ -7,10 +7,10 @@ require 'spec_helper'
 # # describe 'Change Request Service Tests' do
 RSpec.describe Routes::ChangeRequestController, type: :controller do
 
-  describe 'Get version info' do
-    it 'should pass, returns version' do
+  describe 'Get change request' do
+    it 'should fail because patient doesnt exists, returns correct status code' do
       get 'changerequest', {:patientID => '123re'}
-      expect(last_response.status).to eq 200
+      expect(last_response.status).to equal(404)
     end
   end
 
