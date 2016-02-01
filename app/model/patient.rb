@@ -45,9 +45,7 @@ class Patient
     rejoin_trigger['dateRejoined'] = DateTime.now
     self['patientRejoinTriggers'].pop
     self['patientRejoinTriggers'] += [{
-        'treatmentArmId': rejoin_trigger['treatmentArmId'],
-        'treatmentArmVersion': rejoin_trigger['treatmentArmVersion'],
-        'assignmentReason': rejoin_trigger['assignmentReason'],
+        'eligibleArms': rejoin_trigger['eligibleArms'],
         'dateScanned': rejoin_trigger['dateScanned'],
         'dateSentToECOG': rejoin_trigger['dateSentToECOG'],
         'dateRejoined': rejoin_trigger['dateRejoined']
