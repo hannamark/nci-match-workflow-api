@@ -3,6 +3,9 @@ source 'https://rubygems.org'
 gem "codeclimate-test-reporter"
 gem "rake"
 
+#New Relic Application Process Monitoring
+gem 'newrelic_rpm'
+
 # Used by the workflow api
 gem 'sinatra', '1.4.6'
 gem 'sinatra-contrib', '1.4.6'
