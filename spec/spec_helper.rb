@@ -16,29 +16,20 @@
 # users commonly want.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
-require "codeclimate-test-reporter"
 
 require 'webmock/rspec'
-require 'rack/test'
 require 'sinatra'
+require 'rspec'
+require 'rack/test'
 
-# Disable external http request
-WebMock.disable_net_connect!(allow_localhost: true)
+module RSpecMixin
+  include Rack::Test::Methods
+  def app() Sinatra::Application end
+end
 
-require 'simplecov'
-require 'simplecov-json'
-require 'simplecov-rcov'
-
-SimpleCov.formatters = [
-  SimpleCov::Formatter::HTMLFormatter,
-  SimpleCov::Formatter::JSONFormatter,
-  SimpleCov::Formatter::RcovFormatter
-]
-
-SimpleCov.start
-# CodeClimate::TestReporter.start
+require './config/environments/test'
 RSpec.configure do |config|
-  config.include Rack::Test::Methods
+  config.include RSpecMixin
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
