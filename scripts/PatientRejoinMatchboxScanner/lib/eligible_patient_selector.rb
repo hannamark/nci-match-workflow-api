@@ -11,11 +11,12 @@ class EligiblePatientSelector
 
   def self.is_eligible_arms_list_equal(eligible_arms, other_eligible_arms)
     return true if eligible_arms.nil? && other_eligible_arms.nil?
+    return false if (eligible_arms.nil? && !other_eligible_arms.nil?) || (!eligible_arms.nil? && other_eligible_arms.nil?)
     return false if eligible_arms.size != other_eligible_arms.size
     eligible_arms.each do |arm|
       found = false
       other_eligible_arms.each do |other_arm|
-        if arm['treatmentArmId'] <=> other_arm['treatmentArmId'] && arm['treatmentArmVersion'] <=> other_arm['treatmentArmVersion']
+        if arm['treatmentArmId'] == other_arm['treatmentArmId'] && arm['treatmentArmVersion'] == other_arm['treatmentArmVersion']
           found = true
           break
         end

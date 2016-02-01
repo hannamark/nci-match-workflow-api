@@ -29,3 +29,37 @@ RSpec.describe EligiblePatientSelector, '.get_eligible_arms' do
     end
   end
 end
+
+RSpec.describe EligiblePatientSelector, '.is_eligible_arms_list_equal' do
+  context 'with the eligible arms and other eligible arms nil' do
+    it 'should return true' do
+      expect(EligiblePatientSelector.is_eligible_arms_list_equal(nil, nil)).to eq(true)
+    end
+  end
+
+  context 'with one nil parameter and the other not' do
+    it 'should return false' do
+      expect(EligiblePatientSelector.is_eligible_arms_list_equal(nil, [])).to eq(false)
+      expect(EligiblePatientSelector.is_eligible_arms_list_equal([], nil)).to eq(false)
+    end
+  end
+
+  context 'with the eligible arms and other eligible arms size different' do
+    it 'should return false' do
+      expect(EligiblePatientSelector.is_eligible_arms_list_equal([{}], [{}, {}])).to eq(false)
+    end
+  end
+
+  context 'with the eligible arms and other eligible arms not matching' do
+    it 'should return false' do
+      expect(EligiblePatientSelector.is_eligible_arms_list_equal([{'treatmentArmId' => 'ArmA', 'treatmentArmVersion' => 'v1'}, {'treatmentArmId' => 'ArmB', 'treatmentArmVersion' => 'v1'}], [{'treatmentArmId' => 'ArmA', 'treatmentArmVersion' => 'v1'}, {'treatmentArmId' => 'ArmC', 'treatmentArmVersion' => 'v1'}])).to eq(false)
+      expect(EligiblePatientSelector.is_eligible_arms_list_equal([{'treatmentArmId' => 'ArmA', 'treatmentArmVersion' => 'v1'}, {'treatmentArmId' => 'ArmB', 'treatmentArmVersion' => 'v1'}], [{'treatmentArmId' => 'ArmA', 'treatmentArmVersion' => 'v1'}, {'treatmentArmId' => 'ArmB', 'treatmentArmVersion' => 'v2'}])).to eq(false)
+    end
+  end
+
+  context 'with the eligible arms and other eligible arms matching' do
+    it 'should return true' do
+      expect(EligiblePatientSelector.is_eligible_arms_list_equal([{'treatmentArmId' => 'ArmA', 'treatmentArmVersion' => 'v1'}, {'treatmentArmId' => 'ArmB', 'treatmentArmVersion' => 'v1'}], [{'treatmentArmId' => 'ArmA', 'treatmentArmVersion' => 'v1'}, {'treatmentArmId' => 'ArmB', 'treatmentArmVersion' => 'v1'}])).to eq(true)
+    end
+  end
+end
