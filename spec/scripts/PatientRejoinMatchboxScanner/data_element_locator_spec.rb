@@ -1,24 +1,24 @@
 require "#{File.dirname(__FILE__)}/../../../scripts/PatientRejoinMatchboxScanner/lib/data_element_locator"
 
-# Test the DataElementLocator get_latest_biopsy method
+# Test the DataElementLocator get_last_element method
 
-RSpec.describe DataElementLocator, '.get_latest_biopsy' do
+RSpec.describe DataElementLocator, '.get_last_element' do
   context 'with a nil value' do
     it 'should return a nil value' do
-      expect(DataElementLocator.get_latest_biopsy(nil)).to be_nil
+      expect(DataElementLocator.get_last_element(nil)).to be_nil
     end
   end
 
   context 'with a empty array' do
     it 'should return a nil value' do
-      expect(DataElementLocator.get_latest_biopsy([])).to be_nil
+      expect(DataElementLocator.get_last_element([])).to be_nil
     end
   end
 
   context 'with an array of one biopsy' do
     it 'should return the biopsy' do
       biopsies = [{'biopsySequenceNumber' => 'N-15-00005'}]
-      latest_biopsy = DataElementLocator.get_latest_biopsy(biopsies)
+      latest_biopsy = DataElementLocator.get_last_element(biopsies)
       expect(latest_biopsy['biopsySequenceNumber']).to eq('N-15-00005')
     end
   end
@@ -26,8 +26,24 @@ RSpec.describe DataElementLocator, '.get_latest_biopsy' do
   context 'with an array of two biopies' do
     it 'should return the latest biopsy' do
       biopsies = [{'biopsySequenceNumber' => 'N-15-00005'},{'biopsySequenceNumber' => 'N-15-00006'}]
-      latest_biopsy = DataElementLocator.get_latest_biopsy(biopsies)
+      latest_biopsy = DataElementLocator.get_last_element(biopsies)
       expect(latest_biopsy['biopsySequenceNumber']).to eq('N-15-00006')
+    end
+  end
+
+  context 'with an array of one next generation sequence' do
+    it 'should return the next generation sequence' do
+      next_generation_sequences = [{'ionReporterResults' => { 'jobName' => 'testjob1' }}]
+      latest_next_generation_sequence = DataElementLocator.get_last_element(next_generation_sequences)
+      expect(latest_next_generation_sequence['ionReporterResults']['jobName']).to eq('testjob1')
+    end
+  end
+
+  context 'with an array of two next generation sequences' do
+    it 'should return the latest next generation sequence' do
+      next_generation_sequences = [{'ionReporterResults' => { 'jobName' => 'testjob1' }},{'ionReporterResults' => { 'jobName' => 'testjob2' }}]
+      latest_next_generation_sequence = DataElementLocator.get_last_element(next_generation_sequences)
+      expect(latest_next_generation_sequence['ionReporterResults']['jobName']).to eq('testjob2')
     end
   end
 end
@@ -47,39 +63,6 @@ RSpec.describe DataElementLocator, '.get_specimen_received_message' do
       biopsy = { 'mdAndersonMessages' => [ { 'reportedDate' => message_date, 'message' => 'SPECIMEN_RECEIVED' } ] }
       specimen_received_message = DataElementLocator.get_specimen_received_message(biopsy)
       expect(specimen_received_message['reportedDate']).to eq(message_date)
-    end
-  end
-end
-
-
-# Test the DataElementLocator get_latest_next_generation_sequence method
-
-RSpec.describe DataElementLocator, '.get_latest_next_generation_sequence' do
-  context 'with a nil value' do
-    it 'should return a nil value' do
-      expect(DataElementLocator.get_latest_next_generation_sequence(nil)).to be_nil
-    end
-  end
-
-  context 'with a empty array' do
-    it 'should return a nil value' do
-      expect(DataElementLocator.get_latest_next_generation_sequence([])).to be_nil
-    end
-  end
-
-  context 'with an array of one next generation sequence' do
-    it 'should return the next generation sequence' do
-      next_generation_sequences = [{'ionReporterResults' => { 'jobName' => 'testjob1' }}]
-      latest_next_generation_sequence = DataElementLocator.get_latest_next_generation_sequence(next_generation_sequences)
-      expect(latest_next_generation_sequence['ionReporterResults']['jobName']).to eq('testjob1')
-    end
-  end
-
-  context 'with an array of two next generation sequences' do
-    it 'should return the latest next generation sequence' do
-      next_generation_sequences = [{'ionReporterResults' => { 'jobName' => 'testjob1' }},{'ionReporterResults' => { 'jobName' => 'testjob2' }}]
-      latest_next_generation_sequence = DataElementLocator.get_latest_next_generation_sequence(next_generation_sequences)
-      expect(latest_next_generation_sequence['ionReporterResults']['jobName']).to eq('testjob2')
     end
   end
 end

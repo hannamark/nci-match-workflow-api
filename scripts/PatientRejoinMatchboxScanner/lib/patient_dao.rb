@@ -27,7 +27,7 @@ class PatientDao
     documents.each do |document|
       next if document['currentStepNumber'] != '0'
       patient_sequence_number = document['patientSequenceNumber']
-      biopsy = DataElementLocator.get_latest_biopsy(document['biopsies'])
+      biopsy = DataElementLocator.get_last_element(document['biopsies'])
       next if biopsy.nil?
 
       specimen_received_message = DataElementLocator.get_specimen_received_message(biopsy)
@@ -35,7 +35,7 @@ class PatientDao
       cut_off_date = DateTime.now << 6
       next if specimen_received_message['reportedDate'].utc < cut_off_date.to_time.utc
 
-      next_generation_sequence = DataElementLocator.get_latest_next_generation_sequence(biopsy['nextGenerationSequences'])
+      next_generation_sequence = DataElementLocator.get_last_element(biopsy['nextGenerationSequences'])
       next if next_generation_sequence.nil?
       analysis_id = DataElementLocator.get_confirmed_variant_report_analysis_id(next_generation_sequence)
       if !patient_sequence_number.nil? && !analysis_id.nil?
