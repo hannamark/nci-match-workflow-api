@@ -1,3 +1,5 @@
+require "#{File.dirname(__FILE__)}/../../../scripts/PatientRejoinMatchboxScanner/lib/eligible_patient_selector"
+
 class SimulateAssignmentAnalyzer
 
   def initialize(off_trial_patient, assignment_results)
