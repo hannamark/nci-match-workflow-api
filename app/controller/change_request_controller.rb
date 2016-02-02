@@ -45,9 +45,8 @@ module Routes
           filelist = Dir.glob("#{fullpath}/*")
           return filelist.to_json
         else
-          WorkflowLogger.logger.info "WORKFLOW API | Change Request, ERROR Patient #{fullpath} does not exist, 404"
-          status 404
-          body TransactionMessage.new('FAILURE', "PatientID #{params[:patientID]} does not exist").to_json
+          WorkflowLogger.logger.info "WORKFLOW API | Change Request, Patient #{params[:patientID]} doesn't have any uploaded file"
+          [].to_json
         end
       end
 
