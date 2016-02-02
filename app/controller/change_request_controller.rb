@@ -6,8 +6,8 @@ module Routes
       baseChangeDirectory = FileSystemConfig.local_storage_path + '/change_request_files'
 
       post '/changerequest/:patientID' do
-        WorkflowLogger.logger.debug "We got here"
-          datafile = params[:dto]
+
+          datafile = params[:data]
           fullpath = "#{baseChangeDirectory}/#{params[:patientID]}/#{datafile[:filename]}"
           WorkflowLogger.logger.info "WORKFLOW API | Change Request, processing upload #{fullpath} ..."
 
