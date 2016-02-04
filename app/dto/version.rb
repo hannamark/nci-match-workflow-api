@@ -3,6 +3,6 @@ class Version
   attr_reader :version
 
   def initialize
-    @version = 'v.1.1.0'
+    @version = 'v.1.2.0'
   end
 end
