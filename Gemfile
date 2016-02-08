@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
-gem "codeclimate-test-reporter"
-gem "rake"
+# gem "codeclimate-test-reporter"
+# gem "rake"
 
 #New Relic Application Process Monitoring
 gem 'newrelic_rpm'

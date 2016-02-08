@@ -27,13 +27,14 @@ class Patient
   end
 
   def add_patient_trigger(status)
+    message = get_rejoin_message
     self['currentPatientStatus'] = status
     self['patientTriggers'] += [{
             studyId: 'EAY131',
             patientSequenceNumber: self['patientSequenceNumber'],
             stepNumber: self['currentStepNumber'],
             patientStatus: status,
-            message: 'Notified by ECOG that the patient has rejoined the study.',
+            message: message,
             dateCreated: DateTime.now,
             auditDate: DateTime.now
         }]
@@ -53,4 +54,12 @@ class Patient
     self
   end
 
+  def get_rejoin_message()
+    message = 'Notified by ECOG that the patient has rejoined the study.'
+
+    if !self['priorDrugs'].nil? && self['priorDrugs'].size > 0
+      message = "Notified by ECOG that the patient has rejoined the study. Previous drugs:  #{self['priorDrugs']}"
+    end
+    message
+  end
 end
