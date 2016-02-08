@@ -3,7 +3,7 @@ require 'logger'
 require "#{File.dirname(__FILE__)}/lib/simulate_assignment_analyzer"
 require "#{File.dirname(__FILE__)}/lib/command_line_helper"
 require "#{File.dirname(__FILE__)}/lib/config_loader"
-require "#{File.dirname(__FILE__)}/lib/ecog_api_client"
+require "#{File.dirname(__FILE__)}/lib/ecog_rejoin_sender"
 require "#{File.dirname(__FILE__)}/lib/eligible_patient_selector"
 require "#{File.dirname(__FILE__)}/lib/match_api_client"
 require "#{File.dirname(__FILE__)}/lib/patient_dao"
@@ -75,20 +75,7 @@ begin
 
   if clh.options[:print].nil?
     if eligible_patients[:patient_sequence_numbers].size > 0
-      logger.info("SCANNER | Sending ECOG patient(s) #{eligible_patients[:patient_sequence_numbers]} eligible to rejoin Matchbox ...")
-      ecog_api = EcogAPIClient.new(cl.config)
-      ecog_api.send_patient_eligible_for_rejoin(eligible_patients[:patient_sequence_numbers])
-      logger.info("SCANNER | Sending ECOG patient(s) #{eligible_patients[:patient_sequence_numbers]} eligible to rejoin Matchbox complete.")
-
-      eligible_patients[:patient_docs].each do |patient_doc|
-        logger.info("SCANNER | Adding/Updating patient #{patient_doc[:patientSequenceNumber]} rejoin trigger #{patient_doc[:patientRejoinTriggers][patient_doc[:patientRejoinTriggers].size - 1]} ...")
-        patient_doc[:patientRejoinTriggers][patient_doc[:patientRejoinTriggers].size - 1][:dateSentToECOG] = DateTime.now
-        if dao.update(patient_doc).n == 1
-          logger.info("SCANNER | Saved date rejoin message sent to ECOG for patient #{patient_doc[:patientSequenceNumber]}.")
-        else
-          logger.info("SCANNER | Failed to save date rejoin message sent to ECOG for patient  #{patient_doc[:patientSequenceNumber]}.")
-        end
-      end
+      EcogRejoinSender.new(logger, cl.config).send(eligible_patients)
     end
   else
     logger.info('SCANNER | Print mode was detected so logging all patient(s) eligible for rejoin ...')

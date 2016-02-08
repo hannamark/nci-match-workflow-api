@@ -46,10 +46,15 @@ class PatientDao
     results
   end
 
+  def add_patient_trigger(patient_doc, patient_trigger)
+    raise ArgumentError, 'Patient document cannot be nil.' if patient_doc.nil?
+    raise ArgumentError, 'Patient trigger cannot be nil.' if patient_trigger.nil?
+    patient_doc['patientTriggers'].push(patient_trigger)
+    update(patient_doc)
+  end
+
   def update(patient_doc)
-    if patient_doc.nil?
-      raise ArgumentError, 'Patient document cannot be nil.'
-    end
+    raise ArgumentError, 'Patient document cannot be nil.' if patient_doc.nil?
     @client[:patient].update_one({'_id' => patient_doc['_id']}, patient_doc)
   end
 
