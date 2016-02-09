@@ -54,11 +54,12 @@ class Patient
     self
   end
 
+  private
   def get_rejoin_message()
-    message = 'Notified by ECOG that the patient has rejoined the study.'
+    message = 'No drugs prior to rejoin.'
 
     if !self['priorDrugs'].nil? && self['priorDrugs'].size > 0
-      message = "Notified by ECOG that the patient has rejoined the study. Previous drugs:  #{self['priorDrugs']}"
+      message = "Prior to rejoin drugs:  #{self['priorDrugs']}"
     end
     message
   end
