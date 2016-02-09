@@ -8,7 +8,7 @@ module SecurityUtil
     SALTKEY = "salt"
     IVKEY = "ivFilePathofDoom"
 
-    def encrypt(word)
+    def self.encrypt(word)
       cipher = OpenSSL::Cipher::AES128.new(:CBC)
       cipher.encrypt
       cipher.key = OpenSSL::PKCS5.pbkdf2_hmac_sha1(BASE64PASSWORD, SALTKEY, 65536, cipher.key_len)
@@ -17,7 +17,7 @@ module SecurityUtil
     end
 
 
-    def decrypt(word)
+    def self.decrypt(word)
       cipher = OpenSSL::Cipher::AES128.new(:CBC)
       cipher.decrypt
       cipher.key = OpenSSL::PKCS5.pbkdf2_hmac_sha1(BASE64PASSWORD, SALTKEY, 65536, cipher.key_len)

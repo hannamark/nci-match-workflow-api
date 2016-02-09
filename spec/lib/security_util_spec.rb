@@ -16,9 +16,6 @@ RSpec.describe SecurityUtil, '#encrypt string' do
   context 'with a password string' do
 
     it 'should not return the same password string' do
-      p @password_string
-      p @encrypted_string
-      p @decrypted_string
       expect @encrypted_string != @password_string
     end
 
