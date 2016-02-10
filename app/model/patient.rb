@@ -59,7 +59,7 @@ class Patient
     message = 'No drugs prior to rejoin.'
 
     if !self['priorDrugs'].nil? && self['priorDrugs'].size > 0
-      message = "Prior to rejoin drugs:  #{self['priorDrugs']}"
+      message = "Prior to rejoin drugs:  #{self['priorDrugs']["drugs"]["name"]}"
     end
     message
   end
