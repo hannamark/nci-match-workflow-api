@@ -18,7 +18,7 @@ RSpec.describe RejoinMatchboxValidator, '#validate' do
     end
   end
 
-  context 'with current patient status that is not "OFF_TRIAL_NO_TA_AVAILABLE" and step number 0' do
+  context 'with current patient status that is not "REJOIN_REQUESTED" and step number 0' do
     it 'should raise a rejoin error' do
       statues = %w(REGISTRATION ON_TREATMENT_ARM OFF_TRIAL OFF_TRIAL_DECEASED OFF_TRIAL_NOT_CONSENTED OFF_TRIAL_REGISTRATION_ERROR)
 
@@ -29,21 +29,21 @@ RSpec.describe RejoinMatchboxValidator, '#validate' do
     end
   end
 
-  context 'with current patient status "OFF_TRIAL_NO_TA_AVAILABLE" and not on step number 0' do
+  context 'with current patient status "REJOIN_REQUESTED" and not on step number 0' do
     it 'should raise a rejoin error' do
       for step in 1..7
-        validator = RejoinMatchboxValidator.new({ 'patientSequenceNumber' => '1234', 'currentPatientStatus' => 'OFF_TRIAL_NO_TA_AVAILABLE', 'currentStepNumber' => step.to_s }, nil)
-        expect{ validator.validate }.to raise_error("Patient 1234 current status is OFF_TRIAL_NO_TA_AVAILABLE and step number is #{step}.")
+        validator = RejoinMatchboxValidator.new({ 'patientSequenceNumber' => '1234', 'currentPatientStatus' => 'REJOIN_REQUESTED', 'currentStepNumber' => step.to_s }, nil)
+        expect{ validator.validate }.to raise_error("Patient 1234 current status is REJOIN_REQUESTED and step number is #{step}.")
       end
     end
   end
 
   context 'with no patient rejoin trigger' do
     it 'should raise a rejoin error' do
-      validator = RejoinMatchboxValidator.new({ 'patientSequenceNumber' => '1234', 'currentPatientStatus' => 'OFF_TRIAL_NO_TA_AVAILABLE', 'currentStepNumber' => '0' }, nil)
+      validator = RejoinMatchboxValidator.new({ 'patientSequenceNumber' => '1234', 'currentPatientStatus' => 'REJOIN_REQUESTED', 'currentStepNumber' => '0' }, nil)
       expect{ validator.validate }.to raise_error('No rejoin trigger exist for patient 1234.')
 
-      validator = RejoinMatchboxValidator.new({ 'patientSequenceNumber' => '1234', 'currentPatientStatus' => 'OFF_TRIAL_NO_TA_AVAILABLE', 'currentStepNumber' => '0', 'patientRejoinTriggers' => [] }, nil)
+      validator = RejoinMatchboxValidator.new({ 'patientSequenceNumber' => '1234', 'currentPatientStatus' => 'REJOIN_REQUESTED', 'currentStepNumber' => '0', 'patientRejoinTriggers' => [] }, nil)
       expect{ validator.validate }.to raise_error('No rejoin trigger exist for patient 1234.')
     end
   end
@@ -52,7 +52,7 @@ RSpec.describe RejoinMatchboxValidator, '#validate' do
     it 'should raise a rejoin error' do
       patient = {
           'patientSequenceNumber' => '1234',
-          'currentPatientStatus' => 'OFF_TRIAL_NO_TA_AVAILABLE',
+          'currentPatientStatus' => 'REJOIN_REQUESTED',
           'currentStepNumber' => '0',
           'patientRejoinTriggers' => [ { 'dateRejoined' => DateTime.now }, { 'dateRejoined' => DateTime.now } ]
       }
@@ -65,7 +65,7 @@ RSpec.describe RejoinMatchboxValidator, '#validate' do
     it 'should raise a rejoin error' do
       patient = {
           'patientSequenceNumber' => '1234',
-          'currentPatientStatus' => 'OFF_TRIAL_NO_TA_AVAILABLE',
+          'currentPatientStatus' => 'REJOIN_REQUESTED',
           'currentStepNumber' => '0',
           'patientRejoinTriggers' => [ { 'eligibleArms' => [ { 'treatmentArmId' => 'Arm1' } ] } ]
       }
@@ -94,7 +94,7 @@ RSpec.describe RejoinMatchboxValidator, '#validate' do
     it 'should raise a rejoin error' do
       patient = {
           'patientSequenceNumber' => '1234',
-          'currentPatientStatus' => 'OFF_TRIAL_NO_TA_AVAILABLE',
+          'currentPatientStatus' => 'REJOIN_REQUESTED',
           'currentStepNumber' => '0',
           'patientRejoinTriggers' => [ { 'eligibleArms' => [ { 'treatmentArmId' => 'Arm1' } ] } ]
       }
@@ -127,7 +127,7 @@ RSpec.describe RejoinMatchboxValidator, '#validate' do
     it 'should not raise a rejoin error' do
       patient = {
           'patientSequenceNumber' => '1234',
-          'currentPatientStatus' => 'OFF_TRIAL_NO_TA_AVAILABLE',
+          'currentPatientStatus' => 'REJOIN_REQUESTED',
           'currentStepNumber' => '0',
           'patientRejoinTriggers' => [ { 'eligibleArms' => [ { 'treatmentArmId' => 'Arm1' } ] } ]
       }
