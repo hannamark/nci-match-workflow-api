@@ -46,6 +46,6 @@ class EcogRejoinSender
     eligible_arms
   end
 
-  private :save, :build_eligiblie_arm_list
+  private :save, :build_eligible_arm_list
 
 end
