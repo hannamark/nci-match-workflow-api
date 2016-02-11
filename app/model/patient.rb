@@ -16,23 +16,23 @@ class Patient
   field :priorDrugs, type: Array
 
   def add_prior_drugs(priorDrugs)
-    if !priorDrugs.nil? && priorDrugs.size > 0
+    if !priorDrugs.blank?
       updated_prior_drugs = []
       priorDrugs.each do |drugCombo|
-        updated_prior_drugs.push(drugCombo) if !DrugComboHelper.exist_in_drug_combo_list(self['priorDrugs'], drugCombo)
+        updated_prior_drugs.push(drugCombo) if !DrugComboHelper.exist_in_drug_combo_list(self[:priorDrugs], drugCombo)
       end
-      self['priorDrugs'] = self['priorDrugs'] + updated_prior_drugs
+      self[:priorDrugs] = self[:priorDrugs] + updated_prior_drugs
     end
     self
   end
 
   def add_patient_trigger(status)
     message = get_rejoin_message
-    self['currentPatientStatus'] = status
-    self['patientTriggers'] += [{
+    self[:currentPatientStatus] = status
+    self[:patientTriggers] += [{
             studyId: 'EAY131',
-            patientSequenceNumber: self['patientSequenceNumber'],
-            stepNumber: self['currentStepNumber'],
+            patientSequenceNumber: self[:patientSequenceNumber],
+            stepNumber: self[:currentStepNumber],
             patientStatus: status,
             message: message,
             dateCreated: DateTime.now,
@@ -42,25 +42,30 @@ class Patient
   end
 
   def set_rejoin_date
-    rejoin_trigger = self['patientRejoinTriggers'][self['patientRejoinTriggers'].size - 1]
-    rejoin_trigger['dateRejoined'] = DateTime.now
-    self['patientRejoinTriggers'].pop
-    self['patientRejoinTriggers'] += [{
-        'eligibleArms': rejoin_trigger['eligibleArms'],
-        'dateScanned': rejoin_trigger['dateScanned'],
-        'dateSentToECOG': rejoin_trigger['dateSentToECOG'],
-        'dateRejoined': rejoin_trigger['dateRejoined']
+    rejoin_trigger = self[:patientRejoinTriggers][self[:patientRejoinTriggers].size - 1]
+    rejoin_trigger[:dateRejoined] = DateTime.now
+    self[:patientRejoinTriggers].pop
+    self[:patientRejoinTriggers] += [{
+        'eligibleArms': rejoin_trigger[:eligibleArms],
+        'dateScanned': rejoin_trigger[:dateScanned],
+        'dateSentToECOG': rejoin_trigger[:dateSentToECOG],
+        'dateRejoined': rejoin_trigger[:dateRejoined]
     }]
     self
   end
 
   private
   def get_rejoin_message()
-    message = 'No drugs prior to rejoin.'
+    message ||= 'No drugs prior to rejoin.'
 
-    if !self['priorDrugs'].nil? && self['priorDrugs'].size > 0
-      # message = "Prior to rejoin drugs:  #{self['priorDrugs']['drugs']['name']}"
-      message = "Prior to rejoin drugs:  #{self['priorDrugs']['name']}"
+    if !self[:priorDrugs].blank?
+      drugList ||= ""
+      self[:priorDrugs].each do | drugs |
+        drugs[:drugs].each do | details |
+          drugList << " " + details[:name]
+        end
+      end
+      message = "Prior to rejoin drugs: #{drugList}"
     end
     message
   end
