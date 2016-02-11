@@ -1,13 +1,17 @@
 require "#{File.dirname(__FILE__)}/../../../app/model/patient"
 
-RSpec.describe Patient, '#add_prior_drugs' do
-  # Implement unit tests
-end
+RSpec.describe Patient do
 
-RSpec.describe Patient, '#add_patient_trigger' do
-  # Implement unit tests
-end
+  context '#add_prior_drugs' do
+    it 'should add prior_drugs to a patient'
+  end
 
-RSpec.describe Patient, '#set_rejoin_date' do
-  # Implement unit tests
+
+  context '#add_patient_trigger' do
+    it 'should add patient_trigger to patient data'
+  end
+
+ context '#set_rejoin_date' do
+    it 'should set join_date for a patient'
+ end
 end
