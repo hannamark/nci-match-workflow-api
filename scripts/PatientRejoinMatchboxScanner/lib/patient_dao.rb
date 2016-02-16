@@ -20,7 +20,7 @@ class PatientDao
   ###
   def get_off_trial_patients
     results = { 'off_trial_patients' => [], 'off_trial_patients_docs' => [] }
-    documents = @client[:patient].find(:currentPatientStatus => { '$in' => %w(OFF_TRIAL_NO_TA_AVAILABLE, REJOIN_REQUESTED) })
+    documents = @client[:patient].find(:currentPatientStatus => { '$in' => %w(OFF_TRIAL_NO_TA_AVAILABLE REJOIN_REQUESTED) })
     documents.each do |document|
       next if document['currentStepNumber'] != '0'
       patient_sequence_number = document['patientSequenceNumber']
