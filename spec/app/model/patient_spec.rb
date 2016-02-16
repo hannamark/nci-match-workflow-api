@@ -4,6 +4,10 @@ RSpec.describe Patient do
 
   context '#add_prior_drugs' do
     it 'should add prior_drugs to a patient'
+    it 'should return empty since patient is empty' do
+      patient = create(:patientEmpty)
+      patient.add_prior_drugs(patient[:priorDrugs])
+    end
   end
 
 
