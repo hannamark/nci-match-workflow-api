@@ -20,12 +20,12 @@ class PatientCollection
 end
 
 class PatientCreator
-  def self.create_eligible_patients(num)
+  def self.create_eligible_patients(num, current_patient_status)
     patients = []
     for i in 0...num
       patients.push({
           'patientSequenceNumber' => i.to_s,
-          'currentPatientStatus' => 'OFF_TRIAL_NO_TA_AVAILABLE',
+          'currentPatientStatus' => current_patient_status,
           'currentStepNumber' => '0',
           'biopsies' => [{
               'nextGenerationSequences' => [{
@@ -155,7 +155,7 @@ class PatientCreator
   end
 end
 
-RSpec.describe PatientDao, '#get_patient_by_status' do
+RSpec.describe PatientDao, '#get_off_trial_patients' do
 
   before(:each) do
     @db_config = {
@@ -166,21 +166,9 @@ RSpec.describe PatientDao, '#get_patient_by_status' do
     }
   end
 
-  context 'with a bad input parameter' do
-    it 'should raise an ArgumentError' do
-      allow(Mongo::Client).to receive(:new).and_return({:patient => PatientCollection.new})
-
-      dao = PatientDao.new(@db_config)
-      expect { dao.get_patient_by_status(nil) }.to raise_error(ArgumentError)
-      expect { dao.get_patient_by_status([]) }.to raise_error(ArgumentError)
-      expect { dao.get_patient_by_status({}) }.to raise_error(ArgumentError)
-      expect { dao.get_patient_by_status('') }.to raise_error(ArgumentError)
-    end
-  end
-
-  context 'with a valid current patient status' do
-    it 'should return off trial no ta available patients on step 0' do
-      eligible_patients = PatientCreator.create_eligible_patients(2)
+  context 'with patient in both the OFF_TRIAL_NO_TA_AVAILABLE and REJOIN_REQUESTED statuses' do
+    it 'should return a list of eligible patients to examine' do
+      eligible_patients = PatientCreator.create_eligible_patients(2, 'OFF_TRIAL_NO_TA_AVAILABLE') + PatientCreator.create_eligible_patients(1, 'REJOIN_REQUESTED')
       noneligible_patients = PatientCreator.create_noneligible_patients
       patients = eligible_patients + noneligible_patients
 
@@ -190,15 +178,15 @@ RSpec.describe PatientDao, '#get_patient_by_status' do
       allow(Mongo::Client).to receive(:new).and_return({:patient => collection})
 
       dao = PatientDao.new(@db_config)
-      docs = dao.get_patient_by_status('OFF_TRIAL_NO_TA_AVAILABLE')
-      expect(docs['off_trial_patients'].size).to be == 2
-      expect(docs['off_trial_patients_docs'].size).to be == 2
+      docs = dao.get_off_trial_patients
+      expect(docs['off_trial_patients'].size).to be == 3
+      expect(docs['off_trial_patients_docs'].size).to be == 3
     end
   end
 
-  context 'with a valid current patient status but using default db config' do
-    it 'should return off trial no ta available patients on step 0' do
-      eligible_patients = PatientCreator.create_eligible_patients(2)
+  context 'with patient in both the OFF_TRIAL_NO_TA_AVAILABLE and REJOIN_REQUESTED statuses but using default db config' do
+    it 'should return a list of eligible patients to examine' do
+      eligible_patients = PatientCreator.create_eligible_patients(2, 'OFF_TRIAL_NO_TA_AVAILABLE') + PatientCreator.create_eligible_patients(1, 'REJOIN_REQUESTED')
       noneligible_patients = PatientCreator.create_noneligible_patients
       patients = eligible_patients + noneligible_patients
 
@@ -208,9 +196,9 @@ RSpec.describe PatientDao, '#get_patient_by_status' do
       allow(Mongo::Client).to receive(:new).and_return({:patient => collection})
 
       dao = PatientDao.new({})
-      docs = dao.get_patient_by_status('OFF_TRIAL_NO_TA_AVAILABLE')
-      expect(docs['off_trial_patients'].size).to be == 2
-      expect(docs['off_trial_patients_docs'].size).to be == 2
+      docs = dao.get_off_trial_patients
+      expect(docs['off_trial_patients'].size).to be == 3
+      expect(docs['off_trial_patients_docs'].size).to be == 3
     end
   end
 

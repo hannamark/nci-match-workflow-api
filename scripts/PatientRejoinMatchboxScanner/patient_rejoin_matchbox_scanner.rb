@@ -30,7 +30,7 @@ begin
   logger.debug("SCANNER | ECOG API configuration #{cl.redacted_config['ecog_api']}")
 
   dao = PatientDao.new(cl.config)
-  off_trial_patients = dao.get_patient_by_status('OFF_TRIAL_NO_TA_AVAILABLE')
+  off_trial_patients = dao.get_off_trial_patients
 
   logger.info("SCANNER | Patients who are off trial without a treatment arm assignment #{off_trial_patients['off_trial_patients']}.")
 

@@ -15,15 +15,12 @@ class PatientDao
   end
 
   ###
-  # Patients are eligible for rejoin is there current status is OFF_TRIAL_NO_TA_AVAILABLE, current step
+  # Patients are eligible for rejoin is there current status is OFF_TRIAL_NO_TA_AVAILABLE or REJOIN_REQUESTED, current step
   # is 0, and the specimen received date is within 6 months lof the current time the rejoin scan.
   ###
-  def get_patient_by_status(currentPatientStatus)
-    if currentPatientStatus.nil? || !currentPatientStatus.kind_of?(String) || currentPatientStatus.empty?
-      raise ArgumentError, 'Current patient status cannot be nil or empty.'
-    end
+  def get_off_trial_patients
     results = { 'off_trial_patients' => [], 'off_trial_patients_docs' => [] }
-    documents = @client[:patient].find(:currentPatientStatus => currentPatientStatus)
+    documents = @client[:patient].find(:currentPatientStatus => { '$in' => %w('OFF_TRIAL_NO_TA_AVAILABLE', 'REJOIN_REQUESTED') })
     documents.each do |document|
       next if document['currentStepNumber'] != '0'
       patient_sequence_number = document['patientSequenceNumber']
