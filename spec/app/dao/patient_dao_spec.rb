@@ -2,7 +2,7 @@ require 'rspec'
 
 require "#{File.dirname(__FILE__)}/../../../app/model/patient"
 require "#{File.dirname(__FILE__)}/../../../app/dao/patient_dao"
-require "#{File.dirname(__FILE__)}/../../factories/patient_factory"
+require "#{File.dirname(__FILE__)}/../../factories/patient_data"
 require "#{File.dirname(__FILE__)}/../../../app/util/workflow_logger"
 require "#{File.dirname(__FILE__)}/../../../app/util/workflow_api_config"
 
@@ -10,7 +10,7 @@ describe 'PatientDao behaviour' do
 
   it 'should return patient with pending variant report' do
 
-    patients = PatientFactory.one_has_confirmed_ngs_and_one_pending
+    patients = PatientData.one_has_confirmed_ngs_and_one_pending
     pending_patients = []
     pending_patients << patients[1]
 
@@ -22,7 +22,7 @@ describe 'PatientDao behaviour' do
 
   it 'should return patient with pending assignment' do
 
-    patients = PatientFactory.one_has_confirmed_ngs_and_one_pending
+    patients = PatientData.one_has_confirmed_ngs_and_one_pending
     patient = patients[1]
     patient.currentPatientStatus = 'PENDING_CONFIRMATION'
     pending_patients = []

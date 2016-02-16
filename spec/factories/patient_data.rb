@@ -1,5 +1,5 @@
 
-class PatientFactory
+class PatientData
   def self.one_has_confirmed_ngs_and_one_pending
     patients = []
     patients << Patient.new({
@@ -195,4 +195,5 @@ class PatientFactory
                                 registrationDate: Time.now
                             })
   end
+
 end
