@@ -39,7 +39,7 @@ class Patient
   end
 
   def add_patient_trigger(status)
-    message = "Prior to rejoin drugs: #{@message}"
+    message = get_rejoin_message
     self[:currentPatientStatus] = status
     self[:patientTriggers] += [{
                                    studyId: 'EAY131',
@@ -65,5 +65,16 @@ class Patient
                                      }]
     self
   end
+
+  private
+  def get_rejoin_message()
+    message ||= 'No drugs prior to rejoin.'
+
+    if !self[:priorDrugs].blank?
+      message = "Prior to rejoin drugs: #{@message}"
+    end
+    message
+  end
+
 
 end
