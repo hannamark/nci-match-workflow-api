@@ -20,18 +20,26 @@ class Patient
   def add_prior_drugs(priorDrugs)
     if !priorDrugs.blank?
       @message =""
-      counter = 0
+      drugCombocounter = 0
       updated_prior_drugs = []
+
       priorDrugs.each do |drugCombo|
         updated_prior_drugs.push(drugCombo) if !DrugComboHelper.exist_in_drug_combo_list(self['priorDrugs'], drugCombo)
+        if drugCombocounter > 0
+          @message <<", "
+        end
+        @message << "["
 
+        drugcounter = 0
         drugCombo['drugs'].each do |drug|
-          if counter > 0
+          if drugcounter > 0
             @message <<", "
           end
           @message << drug['drugId'] + " " + drug['name']
           counter += 1
         end
+        @message << "]"
+        drugCombocounter += 1
       end
       self['priorDrugs'] = self['priorDrugs'] + updated_prior_drugs
     end
