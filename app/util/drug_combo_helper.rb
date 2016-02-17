@@ -10,11 +10,11 @@ class DrugComboHelper
 
   def self.does_drug_combo_match(drug_combo1, drug_combo2)
     return false if drug_combo1.nil? || drug_combo2.nil?
-    return false if drug_combo1['drugs'].size != drug_combo2['drugs'].size
-    drug_combo1['drugs'].each do |drug1|
+    return false if drug_combo1[:drugs].size != drug_combo2[:drugs].size
+    drug_combo1[:drugs].each do |drug1|
       found = false
-      drug_combo2['drugs'].each do |drug2|
-        if drug1['drugId'] == drug2['drugId']
+      drug_combo2[:drugs].each do |drug2|
+        if drug1[:drugId] == drug2[:drugId]
           found = true
           break
         end

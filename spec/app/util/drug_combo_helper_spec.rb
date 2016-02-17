@@ -5,14 +5,14 @@ RSpec.describe DrugComboHelper, '.exist_in_drug_combo_list' do
   context 'with an empty drug combo list' do
     it 'should return false' do
       target_drug_combo = {
-          'drugs': [
+          :drugs => [
               {
-                  'drugId' => 'DrugA_ID',
-                  'name' => 'DrugA_Name',
-                  'description' => 'DrugA_Desc',
-                  'drugClass' => 'DrugA_Class',
-                  'pathway' => 'DrugA_Pathway',
-                  'target' => 'DrugA_Target'
+                  :drugId => 'DrugA_ID',
+                  :name => 'DrugA_Name',
+                  :description => 'DrugA_Desc',
+                  :drugClass => 'DrugA_Class',
+                  :pathway => 'DrugA_Pathway',
+                  :target => 'DrugA_Target'
               }
           ]
       }
@@ -24,26 +24,26 @@ RSpec.describe DrugComboHelper, '.exist_in_drug_combo_list' do
     it 'should return false' do
       drug_combo_list = [
           {
-              "drugs": [
+              :drugs => [
                   {
-                      'drugId' => 'DrugA_ID',
-                      'name' => 'DrugA_Name',
-                      'description' => 'DrugA_Desc',
-                      'drugClass' => 'DrugA_Class',
-                      'pathway' => 'DrugA_Pathway',
-                      'target' => 'DrugA_Target'
+                      :drugId => 'DrugA_ID',
+                      :name => 'DrugA_Name',
+                      :description => 'DrugA_Desc',
+                      :drugClass => 'DrugA_Class',
+                      :pathway => 'DrugA_Pathway',
+                      :target => 'DrugA_Target'
                   }
               ]
           },
           {
-              "drugs": [
+              :drugs => [
                   {
-                      'drugId' => 'DrugB_ID',
-                      'name' => 'DrugB_Name',
-                      'description' => 'DrugB_Desc',
-                      'drugClass' => 'DrugB_Class',
-                      'pathway' => 'DrugB_Pathway',
-                      'target' => 'DrugB_Target'
+                      :drugId => 'DrugB_ID',
+                      :name => 'DrugB_Name',
+                      :description => 'DrugB_Desc',
+                      :drugClass => 'DrugB_Class',
+                      :pathway => 'DrugB_Pathway',
+                      :target => 'DrugB_Target'
                   }
               ]
           }
@@ -56,39 +56,39 @@ RSpec.describe DrugComboHelper, '.exist_in_drug_combo_list' do
     it 'should return false' do
       drug_combo_list = [
           {
-              'drugs' => [
+              :drugs => [
                   {
-                      'drugId' => 'DrugA_ID',
-                      'name' => 'DrugA_Name',
-                      'description' => 'DrugA_Desc',
-                      'drugClass' => 'DrugA_Class',
-                      'pathway' => 'DrugA_Pathway',
-                      'target' => 'DrugA_Target'
+                      :drugId => 'DrugA_ID',
+                      :name => 'DrugA_Name',
+                      :description => 'DrugA_Desc',
+                      :drugClass => 'DrugA_Class',
+                      :pathway => 'DrugA_Pathway',
+                      :target => 'DrugA_Target'
                   }
               ]
           },
           {
-              'drugs' => [
+              :drugs => [
                   {
-                      'drugId' => 'DrugB_ID',
-                      'name' => 'DrugB_Name',
-                      'description' => 'DrugB_Desc',
-                      'drugClass' => 'DrugB_Class',
-                      'pathway' => 'DrugB_Pathway',
-                      'target' => 'DrugB_Target'
+                      :drugId => 'DrugB_ID',
+                      :name => 'DrugB_Name',
+                      :description => 'DrugB_Desc',
+                      :drugClass => 'DrugB_Class',
+                      :pathway => 'DrugB_Pathway',
+                      :target => 'DrugB_Target'
                   }
               ]
           }
       ]
       target_drug_combo = {
-          'drugs' => [
+          :drugs => [
               {
-                  'drugId' => 'DrugC_ID',
-                  'name' => 'DrugC_Name',
-                  'description' => 'DrugC_Desc',
-                  'drugClass' => 'DrugC_Class',
-                  'pathway' => 'DrugC_Pathway',
-                  'target' => 'DrugC_Target'
+                  :drugId => 'DrugC_ID',
+                  :name => 'DrugC_Name',
+                  :description => 'DrugC_Desc',
+                  :drugClass => 'DrugC_Class',
+                  :pathway => 'DrugC_Pathway',
+                  :target => 'DrugC_Target'
               }
           ]
       }
@@ -100,39 +100,39 @@ RSpec.describe DrugComboHelper, '.exist_in_drug_combo_list' do
     it 'should return true' do
       drug_combo_list = [
           {
-              'drugs' => [
+              :drugs => [
                   {
-                      'drugId' => 'DrugA_ID',
-                      'name' => 'DrugA_Name',
-                      'description' => 'DrugA_Desc',
-                      'drugClass' => 'DrugA_Class',
-                      'pathway' => 'DrugA_Pathway',
-                      'target' => 'DrugA_Target'
+                      :drugId => 'DrugA_ID',
+                      :name => 'DrugA_Name',
+                      :description => 'DrugA_Desc',
+                      :drugClass => 'DrugA_Class',
+                      :pathway => 'DrugA_Pathway',
+                      :target => 'DrugA_Target'
                   }
               ]
           },
           {
-              'drugs' => [
+              :drugs => [
                   {
-                      'drugId' => 'DrugB_ID',
-                      'name' => 'DrugB_Name',
-                      'description' => 'DrugB_Desc',
-                      'drugClass' => 'DrugB_Class',
-                      'pathway' => 'DrugB_Pathway',
-                      'target' => 'DrugB_Target'
+                      :drugId => 'DrugB_ID',
+                      :name => 'DrugB_Name',
+                      :description => 'DrugB_Desc',
+                      :drugClass => 'DrugB_Class',
+                      :pathway => 'DrugB_Pathway',
+                      :target => 'DrugB_Target'
                   }
               ]
           }
       ]
       target_drug_combo = {
-          'drugs' => [
+          :drugs => [
               {
-                  'drugId' => 'DrugA_ID',
-                  'name' => 'DrugA_Name',
-                  'description' => 'DrugA_Desc',
-                  'drugClass' => 'DrugA_Class',
-                  'pathway' => 'DrugA_Pathway',
-                  'target' => 'DrugA_Target'
+                  :drugId => 'DrugA_ID',
+                  :name => 'DrugA_Name',
+                  :description => 'DrugA_Desc',
+                  :drugClass => 'DrugA_Class',
+                  :pathway => 'DrugA_Pathway',
+                  :target => 'DrugA_Target'
               }
           ]
       }
@@ -144,55 +144,55 @@ RSpec.describe DrugComboHelper, '.exist_in_drug_combo_list' do
     it 'should return true' do
       drug_combo_list = [
           {
-              'drugs' => [
+              :drugs => [
                   {
-                      'drugId' => 'DrugA_ID',
-                      'name' => 'DrugA_Name',
-                      'description' => 'DrugA_Desc',
-                      'drugClass' => 'DrugA_Class',
-                      'pathway' => 'DrugA_Pathway',
-                      'target' => 'DrugA_Target'
+                      :drugId => 'DrugA_ID',
+                      :name => 'DrugA_Name',
+                      :description => 'DrugA_Desc',
+                      :drugClass => 'DrugA_Class',
+                      :pathway => 'DrugA_Pathway',
+                      :target => 'DrugA_Target'
                   },
                   {
-                      'drugId' => 'DrugB_ID',
-                      'name' => 'DrugB_Name',
-                      'description' => 'DrugB_Desc',
-                      'drugClass' => 'DrugB_Class',
-                      'pathway' => 'DrugB_Pathway',
-                      'target' => 'DrugB_Target'
+                      :drugId => 'DrugB_ID',
+                      :name => 'DrugB_Name',
+                      :description => 'DrugB_Desc',
+                      :drugClass => 'DrugB_Class',
+                      :pathway => 'DrugB_Pathway',
+                      :target => 'DrugB_Target'
                   }
               ]
           },
           {
-              'drugs' => [
+              :drugs => [
                   {
-                      'drugId' => 'DrugC_ID',
-                      'name' => 'DrugC_Name',
-                      'description' => 'DrugC_Desc',
-                      'drugClass' => 'DrugC_Class',
-                      'pathway' => 'DrugC_Pathway',
-                      'target' => 'DrugC_Target'
+                      :drugId => 'DrugC_ID',
+                      :name => 'DrugC_Name',
+                      :description => 'DrugC_Desc',
+                      :drugClass => 'DrugC_Class',
+                      :pathway => 'DrugC_Pathway',
+                      :target => 'DrugC_Target'
                   }
               ]
           }
       ]
       target_drug_combo = {
-          'drugs' => [
+          :drugs => [
               {
-                  'drugId' => 'DrugB_ID',
-                  'name' => 'DrugB_Name',
-                  'description' => 'DrugB_Desc',
-                  'drugClass' => 'DrugB_Class',
-                  'pathway' => 'DrugB_Pathway',
-                  'target' => 'DrugB_Target'
+                  :drugId => 'DrugA_ID',
+                  :name => 'DrugA_Name',
+                  :description => 'DrugA_Desc',
+                  :drugClass => 'DrugA_Class',
+                  :pathway => 'DrugA_Pathway',
+                  :target => 'DrugA_Target'
               },
               {
-                  'drugId' => 'DrugA_ID',
-                  'name' => 'DrugA_Name',
-                  'description' => 'DrugA_Desc',
-                  'drugClass' => 'DrugA_Class',
-                  'pathway' => 'DrugA_Pathway',
-                  'target' => 'DrugA_Target'
+                  :drugId => 'DrugB_ID',
+                  :name => 'DrugB_Name',
+                  :description => 'DrugB_Desc',
+                  :drugClass => 'DrugB_Class',
+                  :pathway => 'DrugB_Pathway',
+                  :target => 'DrugB_Target'
               }
           ]
       }
@@ -207,14 +207,14 @@ RSpec.describe DrugComboHelper, '.does_drug_combo_match' do
   context 'with an empty drug combo1' do
     it 'should return false' do
       drug_combo2 = {
-          'drugs': [
+          :drugs => [
               {
-                  'drugId' => 'DrugA_ID',
-                  'name' => 'DrugA_Name',
-                  'description' => 'DrugA_Desc',
-                  'drugClass' => 'DrugA_Class',
-                  'pathway' => 'DrugA_Pathway',
-                  'target' => 'DrugA_Target'
+                  :drugId => 'DrugA_ID',
+                  :name => 'DrugA_Name',
+                  :description => 'DrugA_Desc',
+                  :drugClass => 'DrugA_Class',
+                  :pathway => 'DrugA_Pathway',
+                  :target => 'DrugA_Target'
               }
           ]
       }
@@ -225,14 +225,14 @@ RSpec.describe DrugComboHelper, '.does_drug_combo_match' do
   context 'with an empty drug combo2' do
     it 'should return false' do
       drug_combo1 = {
-          'drugs': [
+          :drugs => [
               {
-                  'drugId' => 'DrugA_ID',
-                  'name' => 'DrugA_Name',
-                  'description' => 'DrugA_Desc',
-                  'drugClass' => 'DrugA_Class',
-                  'pathway' => 'DrugA_Pathway',
-                  'target' => 'DrugA_Target'
+                  :drugId => 'DrugA_ID',
+                  :name => 'DrugA_Name',
+                  :description => 'DrugA_Desc',
+                  :drugClass => 'DrugA_Class',
+                  :pathway => 'DrugA_Pathway',
+                  :target => 'DrugA_Target'
               }
           ]
       }
@@ -243,26 +243,26 @@ RSpec.describe DrugComboHelper, '.does_drug_combo_match' do
   context 'with drug combo not matching' do
     it 'should return false' do
       drug_combo1 = {
-          'drugs' => [
+          :drugs => [
               {
-                  'drugId' => 'DrugA_ID',
-                  'name' => 'DrugA_Name',
-                  'description' => 'DrugA_Desc',
-                  'drugClass' => 'DrugA_Class',
-                  'pathway' => 'DrugA_Pathway',
-                  'target' => 'DrugA_Target'
+                  :drugId => 'DrugA_ID',
+                  :name => 'DrugA_Name',
+                  :description => 'DrugA_Desc',
+                  :drugClass => 'DrugA_Class',
+                  :pathway => 'DrugA_Pathway',
+                  :target => 'DrugA_Target'
               }
           ]
       }
       drug_combo2 = {
-          'drugs' => [
+          :drugs => [
               {
-                  'drugId' => 'DrugB_ID',
-                  'name' => 'DrugB_Name',
-                  'description' => 'DrugB_Desc',
-                  'drugClass' => 'DrugB_Class',
-                  'pathway' => 'DrugB_Pathway',
-                  'target' => 'DrugB_Target'
+                  :drugId => 'DrugB_ID',
+                  :name => 'DrugB_Name',
+                  :description => 'DrugB_Desc',
+                  :drugClass => 'DrugB_Class',
+                  :pathway => 'DrugB_Pathway',
+                  :target => 'DrugB_Target'
               }
           ]
       }
@@ -273,26 +273,26 @@ RSpec.describe DrugComboHelper, '.does_drug_combo_match' do
   context 'with drug combo matching' do
     it 'should return true' do
       drug_combo1 = {
-          'drugs' => [
+          :drugs => [
               {
-                  'drugId' => 'DrugA_ID',
-                  'name' => 'DrugA_Name',
-                  'description' => 'DrugA_Desc',
-                  'drugClass' => 'DrugA_Class',
-                  'pathway' => 'DrugA_Pathway',
-                  'target' => 'DrugA_Target'
+                  :drugId => 'DrugA_ID',
+                  :name => 'DrugA_Name',
+                  :description => 'DrugA_Desc',
+                  :drugClass => 'DrugA_Class',
+                  :pathway => 'DrugA_Pathway',
+                  :target => 'DrugA_Target'
               }
           ]
       }
       drug_combo2 = {
-          'drugs' => [
+          :drugs => [
               {
-                  'drugId' => 'DrugA_ID',
-                  'name' => 'DrugA_Name',
-                  'description' => 'DrugA_Desc',
-                  'drugClass' => 'DrugA_Class',
-                  'pathway' => 'DrugA_Pathway',
-                  'target' => 'DrugA_Target'
+                  :drugId => 'DrugA_ID',
+                  :name => 'DrugA_Name',
+                  :description => 'DrugA_Desc',
+                  :drugClass => 'DrugA_Class',
+                  :pathway => 'DrugA_Pathway',
+                  :target => 'DrugA_Target'
               }
           ]
       }
