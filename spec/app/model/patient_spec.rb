@@ -6,12 +6,13 @@ RSpec.describe Patient do
 
     it 'should add prior_drugs to a patient' do
       patient = create(:patientEmpty)
-      expect(patient).to be(patient.add_prior_drugs([:drugs => [{:drugId => "", :name => "Afatinib"}]]))
+      priorRejoinDrugs = [{:drugs => [{:drugId => "", :name => "Afatinib"}]}]
+      expect(patient).to be(patient.add_prior_drugs(priorRejoinDrugs))
     end
 
     it 'should not add another drug if it already exists' do
       patient = create(:patientWithData)
-      expect(patient).to be(patient.add_prior_drugs([:drugs => [{:drugId => "", :name => "Afatinib"}]]))
+      expect(patient).to be(patient.add_prior_drugs([{:drugs => [{:drugId => "", :name => "Afatinib"}]}]))
     end
 
     it 'should return empty since patient is empty' do
