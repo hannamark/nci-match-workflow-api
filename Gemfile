@@ -19,6 +19,7 @@ gem 'mongo', '2.1.2'
 gem 'rest-client', '1.8.0'
 
 group :test do
+  gem 'database_cleaner'
   gem 'rspec', '3.3.0'
   gem 'webmock', '1.22.3'
   gem 'simplecov', '0.10.0'
