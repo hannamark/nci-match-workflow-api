@@ -19,13 +19,13 @@ class EcogRejoinSender
     eligible_patients[:patient_docs].each do |patient_doc|
       @logger.info("SCANNER | Adding/Updating patient #{patient_doc[:patientSequenceNumber]} rejoin trigger #{patient_doc[:patientRejoinTriggers][patient_doc[:patientRejoinTriggers].size - 1]} ...")
       patient_doc[:patientRejoinTriggers][patient_doc[:patientRejoinTriggers].size - 1][:dateSentToECOG] = DateTime.now
-      message = "Patient is eligible for arms #{build_eligible_arm_list(patient_doc[:patientRejoinTriggers][patient_doc[:patientRejoinTriggers].size - 1]).join(', ')}."
+      # message = "Patient is eligible for arms #{build_eligible_arm_list(patient_doc[:patientRejoinTriggers][patient_doc[:patientRejoinTriggers].size - 1]).join(', ')}."
       rejoin_requested_trigger = {
           'studyId' => 'EAY131',
           'patientSequenceNumber' => patient_doc[:patientSequenceNumber],
           'stepNumber' => patient_doc[:currentStepNumber],
           'patientStatus' => 'REJOIN_REQUESTED',
-          'message' => message,
+          'message' => "",
           'dateCreated' => DateTime.now,
           'dateAudited' => DateTime.now
       }
