@@ -36,7 +36,7 @@ class Patient
             @message <<", "
           end
           @message << drug['drugId'] + " " + drug['name']
-          counter += 1
+          drugcounter += 1
         end
         @message << "]"
         drugCombocounter += 1
