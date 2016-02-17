@@ -15,14 +15,20 @@ class Patient
   field :patientTriggers, type: Array
   field :priorDrugs, type: Array
 
-  @message = " "
+  @message = ""
 
   def add_prior_drugs(priorDrugs)
     if !priorDrugs.blank?
+      @message =""
       updated_prior_drugs = []
       priorDrugs.each do |drugCombo|
         updated_prior_drugs.push(drugCombo) if !DrugComboHelper.exist_in_drug_combo_list(self[:priorDrugs], drugCombo)
-        @message += drugCombo[:drugId] + " " + drugCombo[:name] + ", "
+
+        drugCombo[:drugs].each do |drug|
+          p @message
+          p drug
+          @message << drug[:drugId] + " " + drug[:name] + ", "
+        end
       end
       self[:priorDrugs] = self[:priorDrugs] + updated_prior_drugs
     end
@@ -30,7 +36,6 @@ class Patient
   end
 
   def add_patient_trigger(status)
-    # message = get_rejoin_message
     message = "Prior to rejoin drugs: #{@message}"
     self[:currentPatientStatus] = status
     self[:patientTriggers] += [{
@@ -58,24 +63,4 @@ class Patient
     self
   end
 
-  # private
-  # def get_rejoin_message()
-  #   @message ||= 'No drugs prior to rejoin.'
-  #   # counter = 0
-  #
-  #   # if !self[:priorDrugs].blank?
-  #   #   drugList ||= ""
-  #   #   self[:priorDrugs].each do | drugs |
-  #   #     drugs[:drugs].each do | details |
-  #   #       if counter > 0
-  #   #         drugList << ", "
-  #   #       end
-  #   #       drugList << details[:drugId] + " " + details[:name]
-  #   #       ++counter
-  #   #     end
-  #   #   end
-  #   #   message = "Prior to rejoin drugs: #{drugList}"
-  #   # end
-  #   message
-  # end
 end
