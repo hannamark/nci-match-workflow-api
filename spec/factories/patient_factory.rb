@@ -11,6 +11,15 @@ FactoryGirl.define do
     priorDrugs []
   end
 
+  factory :patientWithData, class: Patient do
+    patientSequenceNumber "211re"
+    currentPatientStatus "REJOIN"
+    currentStepNumber "2"
+    patientRejoinTriggers []
+    patientTriggers []
+    priorDrugs [:drugs => [{:drugId => "", :name => "Afatinib"}]]
+  end
+
   factory :patientNull, class: Patient do
     patientSequenceNumber nil
     currentPatientStatus nil
