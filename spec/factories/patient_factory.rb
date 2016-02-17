@@ -21,7 +21,14 @@ FactoryGirl.define do
                                 :drugId => "781450",
                                 :name => "VS-6063 (Defactinib)",
                                 :drugClass => "NF2 Loss",
-                                :target => "NF2"}]}]
+                                :target => "NF2"
+                            }]},
+                :drugs => [{
+                               :drugId => "",
+                               :name => "Afatinib",
+                               :drugClass => "",
+                               :target => ""
+                           }]]
   end
 
   factory :patientNull, class: Patient do

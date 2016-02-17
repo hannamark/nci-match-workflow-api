@@ -17,12 +17,12 @@ class Patient
 
   @message = " "
 
-  def add_prior_drugs(priorDrugs)
-    if !priorDrugs.blank?
+  def add_prior_drugs(priorRejoinDrugs)
+    if !priorRejoinDrugs.blank?
       updated_prior_drugs = []
-      priorDrugs.each do |drugCombo|
+      priorRejoinDrugs.each do |drugCombo|
         updated_prior_drugs.push(drugCombo) if !DrugComboHelper.exist_in_drug_combo_list(self[:priorDrugs], drugCombo)
-        @message += drugCombo[:drugId] + " " + drugCombo[:name] + ", "
+        # @message += drugCombo[:drugs] + ", "
       end
       self[:priorDrugs] = self[:priorDrugs] + updated_prior_drugs
     end
@@ -63,9 +63,9 @@ class Patient
   #   @message ||= 'No drugs prior to rejoin.'
   #   # counter = 0
   #
-  #   # if !self[:priorDrugs].blank?
+  #   # if !self[:priorRejoinDrugs].blank?
   #   #   drugList ||= ""
-  #   #   self[:priorDrugs].each do | drugs |
+  #   #   self[:priorRejoinDrugs].each do | drugs |
   #   #     drugs[:drugs].each do | details |
   #   #       if counter > 0
   #   #         drugList << ", "
