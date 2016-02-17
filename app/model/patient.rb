@@ -57,12 +57,17 @@ class Patient
   private
   def get_rejoin_message()
     message ||= 'No drugs prior to rejoin.'
+    counter = 0
 
     if !self[:priorDrugs].blank?
       drugList ||= ""
       self[:priorDrugs].each do | drugs |
         drugs[:drugs].each do | details |
-          drugList << " " + details[:name]
+          if counter > 0
+            drugList << ", "
+          end
+          drugList << details[:drugId] + " " + details[:name]
+          ++counter
         end
       end
       message = "Prior to rejoin drugs: #{drugList}"
