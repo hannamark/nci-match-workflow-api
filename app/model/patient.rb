@@ -30,7 +30,7 @@ class Patient
             @message <<", "
           end
           @message << drug['drugId'] + " " + drug['name']
-          ++counter
+          counter += 1
         end
       end
       self['priorDrugs'] = self['priorDrugs'] + updated_prior_drugs
