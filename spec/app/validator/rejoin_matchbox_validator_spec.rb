@@ -61,13 +61,26 @@ RSpec.describe RejoinMatchboxValidator, '#validate' do
     end
   end
 
-  context 'with patient rejoin trigger but request data contains a drug combo that is missing a drug id' do
+  context 'with patient rejoin trigger that does not have a dateRejoined property' do
     it 'should raise a rejoin error' do
       patient = {
           'patientSequenceNumber' => '1234',
           'currentPatientStatus' => 'REJOIN_REQUESTED',
           'currentStepNumber' => '0',
           'patientRejoinTriggers' => [ { 'eligibleArms' => [ { 'treatmentArmId' => 'Arm1' } ] } ]
+      }
+      validator = RejoinMatchboxValidator.new(patient, nil)
+      expect{ validator.validate }.to raise_error('Latest patient 1234 was never sent to ECOG for processing.')
+    end
+  end
+
+  context 'with patient rejoin trigger but request data contains a drug combo that is missing a drug id' do
+    it 'should raise a rejoin error' do
+      patient = {
+          'patientSequenceNumber' => '1234',
+          'currentPatientStatus' => 'REJOIN_REQUESTED',
+          'currentStepNumber' => '0',
+          'patientRejoinTriggers' => [ { 'eligibleArms' => [ { 'treatmentArmId' => 'Arm1' } ], 'dateSentToECOG' => DateTime.now } ]
       }
       request_data = {
           'patientSequenceNumber' => '10367',
@@ -96,7 +109,7 @@ RSpec.describe RejoinMatchboxValidator, '#validate' do
           'patientSequenceNumber' => '1234',
           'currentPatientStatus' => 'REJOIN_REQUESTED',
           'currentStepNumber' => '0',
-          'patientRejoinTriggers' => [ { 'eligibleArms' => [ { 'treatmentArmId' => 'Arm1' } ] } ]
+          'patientRejoinTriggers' => [ { 'eligibleArms' => [ { 'treatmentArmId' => 'Arm1' } ], 'dateSentToECOG' => DateTime.now } ]
       }
       request_data = {
           'patientSequenceNumber' => '10367',
@@ -129,7 +142,7 @@ RSpec.describe RejoinMatchboxValidator, '#validate' do
           'patientSequenceNumber' => '1234',
           'currentPatientStatus' => 'REJOIN_REQUESTED',
           'currentStepNumber' => '0',
-          'patientRejoinTriggers' => [ { 'eligibleArms' => [ { 'treatmentArmId' => 'Arm1' } ] } ]
+          'patientRejoinTriggers' => [ { 'eligibleArms' => [ { 'treatmentArmId' => 'Arm1' } ], 'dateSentToECOG' => DateTime.now } ]
       }
       request_data = {
           'patientSequenceNumber' => '10367',

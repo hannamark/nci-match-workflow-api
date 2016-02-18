@@ -37,6 +37,10 @@ class RejoinMatchboxValidator
       raise RejoinError, "Latest patient #{@patient['patientSequenceNumber']} rejoin trigger has already been processed, no pending rejoin trigger exist."
     end
 
+    if rejoin_trigger['dateSentToECOG'].nil?
+      raise RejoinError, "Latest patient #{@patient['patientSequenceNumber']} was never sent to ECOG for processing."
+    end
+
     if rejoin_trigger['eligibleArms'].nil? || rejoin_trigger['eligibleArms'].size == 0
       raise RejoinError, "Latest patient #{@patient['patientSequenceNumber']} rejoin trigger doesn't have any eligible arms."
     end

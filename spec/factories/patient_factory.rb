@@ -15,7 +15,21 @@ FactoryGirl.define do
     patientSequenceNumber "211re"
     currentPatientStatus "REJOIN"
     currentStepNumber "2"
-    patientRejoinTriggers []
+    patientRejoinTriggers [{ 'eligibleArms' => [{
+                                                    'treatmentArmId' => "rejoinTest7",
+                                                    'treatmentArmVersion' => "2016-02-01",
+                                                    'reason' => "The patient and treatment arm match on variant identifier [COSM901].",
+                                                    'reasonCategory' => "SELECTED"
+                                                },
+                                                {
+                                                    'treatmentArmId' => "rejoinTest8",
+                                                    'treatmentArmVersion' => "2016-02-01",
+                                                    'reason' => "The patient and treatment arm match on variant identifier [COSM1001].",
+                                                    'reasonCategory' => "SELECTED"
+                                                }],
+                             'dateScanned' => Time.now - 10.seconds,
+                             'dateSentToECOG' => Time.now - 10.seconds
+                           }]
     patientTriggers []
     priorDrugs [{'drugs' => [{
                                 'drugId' => "781450",
