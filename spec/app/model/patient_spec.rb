@@ -27,10 +27,11 @@ RSpec.describe Patient do
   end
 
  context '#set_rejoin_date' do
-    it 'should set join_date for a patient' #do
-    #   patient = create(:patientWithData)
-    #   patient.set_rejoin_date
-    #   expect(patient).to include(patient[:patientRejoinTriggers][0][:dateRejoined])
-    # end
+    it 'should set join_date for a patient' do
+      patient = create(:patientWithData)
+      patient.set_rejoin_date
+      expect(patient[:patientRejoinTriggers][0][:dateRejoined]).to be_truthy
+      expect(patient).to be(patient.set_rejoin_date)
+    end
  end
 end
