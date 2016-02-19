@@ -50,12 +50,19 @@ context '#rejoin messages' do
     expect(patient[:patientTriggers][-1][:message]).to eq('Prior to rejoin drugs: [12345 FakeDrug]')
   end
 
+  it 'rejoin drug combos should show in rejoin message as combos' do
+    patient = create(:patientWithData)
+    priorRejoinDrugs = [{"drugs"=>[{"drugId"=>"763093", "name"=>"Trametinib"}, {"drugId"=>"763760", "name"=>"Dabrafenib"}]}, {"drugs"=>[{"drugId"=>"2000", "name"=>"Asprin"}]}]
+    patient.add_prior_drugs(priorRejoinDrugs)
+    patient.add_patient_trigger('REJOIN')
+    expect(patient[:patientTriggers][-1][:message]).to eq('Prior to rejoin drugs: [763093 Trametinib, 763760 Dabrafenib], [2000 Asprin]')
+  end
+
   it 'no rejoin drug should show no drug message' do
     patient = create(:patientWithData)
     priorRejoinDrugs = nil
     patient.add_prior_drugs(priorRejoinDrugs)
     patient.add_patient_trigger('REJOIN')
-    # patient.set_rejoin_date
     expect(patient[:patientTriggers][-1][:message]).to eq('No drugs prior to rejoin.')
   end
 
