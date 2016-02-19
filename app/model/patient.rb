@@ -16,6 +16,7 @@ class Patient
   field :priorDrugs, type: Array
 
   @message = ""
+  @rejoinMessage = ""
 
   def add_prior_drugs(priorDrugs)
     if !priorDrugs.blank?
@@ -41,20 +42,22 @@ class Patient
         @message << "]"
         drugCombocounter += 1
       end
+      @rejoinMessage = "Prior to rejoin drugs: #{@message}"
       self['priorDrugs'] = self['priorDrugs'] + updated_prior_drugs
+    else
+      @rejoinMessage = 'No drugs prior to rejoin.'
     end
     self
   end
 
   def add_patient_trigger(status)
-    message = get_rejoin_message
     self['currentPatientStatus'] = status
     self['patientTriggers'] += [{
                                    studyId: 'EAY131',
                                    patientSequenceNumber: self['patientSequenceNumber'],
                                    stepNumber: self['currentStepNumber'],
                                    patientStatus: status,
-                                   message: message,
+                                   message: @rejoinMessage,
                                    dateCreated: DateTime.now,
                                    auditDate: DateTime.now
                                }]
@@ -73,16 +76,5 @@ class Patient
                                      }]
     self
   end
-
-  private
-  def get_rejoin_message()
-    message ||= 'No drugs prior to rejoin.'
-
-    if !self['priorDrugs'].blank?
-      message = "Prior to rejoin drugs: #{@message}"
-    end
-    message
-  end
-
 
 end
