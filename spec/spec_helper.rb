@@ -26,37 +26,26 @@ require 'rack/test'
 require 'factory_girl'
 require 'database_cleaner'
 require 'codeclimate-test-reporter'
-# SimpleCov.start do
-#   formatter SimpleCov::Formatter::MultiFormatter[
-#             SimpleCov::Formatter::HTMLFormatter,
-#             CodeClimate::TestReporter::Formatter,
-#             SimpleCov::Formatter::JSONFormatter,
-#             SimpleCov::Formatter::RcovFormatter
-#             ]
-  # end
-
-
+SimpleCov.start do #Must be first thing for codeclimate to work
+  formatter SimpleCov::Formatter::MultiFormatter[
+            SimpleCov::Formatter::HTMLFormatter,
+            CodeClimate::TestReporter::Formatter,
+            SimpleCov::Formatter::JSONFormatter,
+            SimpleCov::Formatter::RcovFormatter
+            ]
+  end
 
 module RSpecMixin
   include Rack::Test::Methods
   def app() Sinatra::Application end
 end
 
-
-
-SimpleCov.formatters = [
-    SimpleCov::Formatter::HTMLFormatter,
-    SimpleCov::Formatter::JSONFormatter,
-    SimpleCov::Formatter::RcovFormatter
-]
-
-SimpleCov.start
-
 require './config/environments/test'
 
 RSpec.configure do |config|
   config.include RSpecMixin
   config.include FactoryGirl::Syntax::Methods
+  WebMock.allow_net_connect!
 
   config.before(:suite) do
     FactoryGirl.find_definitions
