@@ -1,8 +1,5 @@
 source 'https://rubygems.org'
 
-# gem "codeclimate-test-reporter"
-# gem "rake"
-
 #New Relic Application Process Monitoring
 gem 'newrelic_rpm'
 
@@ -18,7 +15,7 @@ gem 'bunny', '2.2.1'
 gem 'mongo', '2.1.2'
 gem 'rest-client', '1.8.0'
 
-group :test do
+group :dev,:test do
   gem 'database_cleaner'
   gem 'rspec', '3.3.0'
   gem 'webmock', '1.22.3'

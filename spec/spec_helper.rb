@@ -16,22 +16,33 @@
 # users commonly want.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
-
+require 'simplecov'
+require 'simplecov-json'
+require 'simplecov-rcov'
 require 'webmock/rspec'
 require 'sinatra'
 require 'rspec'
 require 'rack/test'
 require 'factory_girl'
 require 'database_cleaner'
+require 'codeclimate-test-reporter'
+# SimpleCov.start do
+#   formatter SimpleCov::Formatter::MultiFormatter[
+#             SimpleCov::Formatter::HTMLFormatter,
+#             CodeClimate::TestReporter::Formatter,
+#             SimpleCov::Formatter::JSONFormatter,
+#             SimpleCov::Formatter::RcovFormatter
+#             ]
+  # end
+
+
 
 module RSpecMixin
   include Rack::Test::Methods
   def app() Sinatra::Application end
 end
 
-require 'simplecov'
-require 'simplecov-json'
-require 'simplecov-rcov'
+
 
 SimpleCov.formatters = [
     SimpleCov::Formatter::HTMLFormatter,
@@ -82,7 +93,7 @@ RSpec.configure do |config|
     # `true` in RSpec 4.
     mocks.verify_partial_doubles = true
   end
-
+# end
 # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.
 =begin
