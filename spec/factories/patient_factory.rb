@@ -1,4 +1,5 @@
 require 'factory_girl'
+require "#{File.dirname(__FILE__)}/../../app/model/patient"
 
 FactoryGirl.define do
 
