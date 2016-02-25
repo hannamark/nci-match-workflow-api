@@ -13,13 +13,19 @@ class MatchPropertiesMessageDao
     @password = ConfigHelper.get_prop(db_config, 'database', 'password', nil)
 
     @client = Mongo::Client.new(@hosts, :database => @dbname, :user => @username, :password => @password)
+
   end
 
   def get_value(prop_key)
-    @client[:matchPropertiesMessage].find(:_id => prop_key).limit(1).each do | doc |
+    match_property = @client[:matchPropertiesMessage].find(:_id => prop_key).limit(1)
+    match_property.each do | doc |
       return SecurityUtil::AES.decrypt(doc[:value].as_json["$binary"])
     end
+    ''
+  end
 
+  def close
+    @client.close
   end
 
 end

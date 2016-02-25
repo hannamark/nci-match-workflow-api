@@ -9,6 +9,7 @@ RSpec.describe EcogAPIClient, '#send_patient_eligible_for_rejoin' do
             'scheme' => 'https',
             'hosts' => ['ecoghost:443'],
             'context' => '/MatchInformaticsLayer'
+
         }
     }
   end
