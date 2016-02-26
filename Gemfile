@@ -10,6 +10,7 @@ gem 'bson', '3.2.6'
 gem 'mongoid', '5.0.0'
 gem 'bson_ext', '1.5.1'
 gem 'bunny', '2.2.1'
+gem 'activesupport'
 
 # Used by the client ruby scripts
 gem 'mongo', '2.1.2'

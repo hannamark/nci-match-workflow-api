@@ -1,4 +1,5 @@
 require 'mongo'
+require 'active_support/core_ext/object/blank'
 
 require "#{File.dirname(__FILE__)}/config_helper"
 require "#{File.dirname(__FILE__)}/../../../lib/security_util"
