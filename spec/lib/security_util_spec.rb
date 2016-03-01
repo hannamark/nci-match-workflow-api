@@ -10,8 +10,9 @@ RSpec.describe SecurityUtil, '#encrypt string' do
 
     before {
       @password_string = 'password'
-      @encrypted_string = SecurityUtil::AES.encrypt(@password_string)
-      @decrypted_string = SecurityUtil::AES.decrypt(@encrypted_string)
+      @security = SecurityUtil::AES.new("password64Base", "salt", "ivFilePathofDoom")
+      @encrypted_string = @security.encrypt(@password_string)
+      @decrypted_string = @security.decrypt(@encrypted_string)
     }
 
   context 'with a string it should encrypt and decrypt' do
@@ -25,11 +26,11 @@ RSpec.describe SecurityUtil, '#encrypt string' do
     end
 
     it 'should do nothing with an empty or nil value' do
-      expect(SecurityUtil::AES.encrypt('')).to be_truthy
-      expect(SecurityUtil::AES.encrypt(nil)).to be_truthy
+      expect(@security.encrypt('')).to be_truthy
+      expect(@security.encrypt(nil)).to be_truthy
 
-      expect(SecurityUtil::AES.decrypt('')).to be_truthy
-      expect(SecurityUtil::AES.decrypt(nil)).to be_truthy
+      expect(@security.decrypt('')).to be_truthy
+      expect(@security.decrypt(nil)).to be_truthy
     end
 
   end

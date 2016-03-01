@@ -12,15 +12,16 @@ class MatchPropertiesMessageDao
     @dbname = ConfigHelper.get_prop(db_config, 'database', 'dbname', 'match')
     @username = ConfigHelper.get_prop(db_config, 'database', 'username', nil)
     @password = ConfigHelper.get_prop(db_config, 'database', 'password', nil)
-
     @client = Mongo::Client.new(@hosts, :database => @dbname, :user => @username, :password => @password)
-
+    @security = SecurityUtil::AES.new(ConfigHelper.get_prop(db_config, 'security', 'password', "password64Base"),
+                                      ConfigHelper.get_prop(db_config, 'security', 'salt', "salt"),
+                                      ConfigHelper.get_prop(db_config, 'security', 'ivkey', "ivFilePathofDoom"))
   end
 
   def get_value(prop_key)
     match_property = @client[:matchPropertiesMessage].find(:_id => prop_key).limit(1)
     match_property.each do | doc |
-      return SecurityUtil::AES.decrypt(doc[:value].as_json["$binary"])
+      return @security.decrypt(doc[:value].as_json["$binary"])
     end
     ''
   end
