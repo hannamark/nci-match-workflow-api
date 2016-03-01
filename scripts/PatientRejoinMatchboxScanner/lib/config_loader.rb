@@ -69,7 +69,10 @@ class ConfigLoader
     return {
         'scheme' => config['clients']['default']['scheme'],
         'hosts' => config['clients']['default']['hosts'],
-        'context' => config['clients']['default']['context']
+        'context' => config['clients']['default']['context'],
+        'base_64_password' => config['clients']['default']['base_64_password'],
+        'salt' => config['clients']['default']['salt'],
+        'ivkey' => config['clients']['default']['ivkey']
     }
   end
 

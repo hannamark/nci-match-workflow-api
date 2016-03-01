@@ -22,6 +22,9 @@ RSpec.describe ConfigLoader, '#initialize' do
       expect(parsed_config['match_api']['scheme']).to eq('http')
       expect(parsed_config['match_api']['hosts']).to eq(['127.0.0.1:9090'])
       expect(parsed_config['match_api']['context']).to eq('/match')
+      expect(parsed_config['match_api']['base_64_password']).to eq('password')
+      expect(parsed_config['match_api']['salt']).to eq('salt')
+      expect(parsed_config['match_api']['ivkey']).to eq('key')
 
       expect(parsed_config['ecog_api']['scheme']).to eq('http')
       expect(parsed_config['ecog_api']['hosts']).to eq(['127.0.0.1:3500'])
