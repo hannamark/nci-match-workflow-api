@@ -4,7 +4,7 @@ require 'digest/sha1'
 module SecurityUtil
   class AES
 
-    attr_accessor :base64_password, :salt_key, :iv_key
+    attr_writer :base64_password, :salt_key, :iv_key
 
     def initialize(password, salt, key)
       @base64_password = password
