@@ -36,9 +36,9 @@ module Routes
         DashboardStatistics.new.to_json
       end
 
-      get '/patientRejoinTrialPendingReview' do
+      get '/rejoinRequested' do
         content_type :json
-        docs = Patient.where('patientRejoinTriggers.0' => { :$exists => true }).only(:patientSequenceNumber, :patientRejoinTriggers)
+        docs = Patient.where(currentPatientStatus: 'REJOIN_REQUESTED')
         docs.to_json
       end
 
