@@ -21,6 +21,8 @@ class SecurityTest
 
     decrypted_value = @security.decrypt(value)
 
+    puts decrypted_value
+
     return decrypted_value
 
   end
