@@ -27,7 +27,8 @@ class SecurityTest
 
 end
 
-p SecurityTest.new.run
+SecurityTest.new.run
+
 
 
 
