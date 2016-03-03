@@ -30,7 +30,7 @@ SimpleCov.start do #Must be first thing for codeclimate to work
   formatter SimpleCov::Formatter::MultiFormatter[
             SimpleCov::Formatter::HTMLFormatter,
             CodeClimate::TestReporter::Formatter,
-            SimpleCov::Formatter::JSONFormatter,
+            # SimpleCov::Formatter::JSONFormatter,
             SimpleCov::Formatter::RcovFormatter
             ]
   end
