@@ -13,19 +13,19 @@ class CommandLineHelper
     optparse = OptionParser.new do | opts |
       opts.banner = 'Usage: Provide options for running security_test.rb [options]'
 
-      opts.on('-k s', '--databasekey=s', 'The database key for the value to be decrypted') do |key|
-        options[:key] = key
+      opts.on('-k value', '--databasekey=value', 'The database key for the value to be decrypted') do | datebase_id |
+        options[:key] = datebase_id
       end
 
-      opts.on('-p s', '--password=s', 'The security util password') do |password|
+      opts.on('-p value', '--password=value', 'The security util password') do | password |
         options[:password] = password
       end
 
-      opts.on('-s s', '--salt=s', 'The security util salt') do |salt|
+      opts.on('-s value', '--salt=value', 'The security util salt') do | salt |
         options[:salt] = salt
       end
 
-      opts.on('-i s', '--iv=s', 'The security util iv key') do |iv|
+      opts.on('-i value', '--iv=value', 'The security util iv key') do | iv |
         options[:iv] = iv
       end
 

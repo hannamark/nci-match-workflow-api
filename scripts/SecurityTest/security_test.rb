@@ -1,9 +1,11 @@
+require 'logger'
+
 require "#{File.dirname(__FILE__)}/lib/command_line_helper"
 require "#{File.dirname(__FILE__)}/lib/security_util"
 require "#{File.dirname(__FILE__)}/lib/mongo_client"
+require "#{File.dirname(__FILE__)}/lib/security_logger"
 
 class SecurityTest
-
 
   def initialize
     @command_line_helper = CommandLineHelper.new
@@ -11,6 +13,7 @@ class SecurityTest
     password = @command_line_helper.options[:password]
     salt = @command_line_helper.options[:salt]
     iv = @command_line_helper.options[:iv]
+    SecurityLogger.new({:log_filepath => "application.log", :log_level => Logger::DEBUG})
     @security = SecurityUtil::AES.new(password,salt,iv)
   end
 
