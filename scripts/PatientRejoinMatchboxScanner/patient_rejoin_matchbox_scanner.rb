@@ -7,6 +7,7 @@ require "#{File.dirname(__FILE__)}/lib/ecog_rejoin_sender"
 require "#{File.dirname(__FILE__)}/lib/eligible_patient_selector"
 require "#{File.dirname(__FILE__)}/lib/match_api_client"
 require "#{File.dirname(__FILE__)}/lib/patient_dao"
+require "#{File.dirname(__FILE__)}/lib/rejoin_logger"
 
 clh = CommandLineHelper.new
 cl = ConfigLoader.new(clh.options[:configPath], clh.options[:environment])
@@ -14,11 +15,11 @@ cl = ConfigLoader.new(clh.options[:configPath], clh.options[:environment])
 dirname = File.dirname(cl.config['log_filepath'])
 FileUtils.mkdir_p dirname unless File.exist?(dirname)
 
-logger = Logger.new(cl.config['log_filepath'], 3, 100 * 1024 * 1024)
-Mongo::Logger.logger = logger
+RejoinLogger.logger = Logger.new(cl.config['log_filepath'], 3, 100 * 1024 * 1024)
 
-logger.level = cl.config['log_level']
-Mongo::Logger.logger.level = logger.level
+RejoinLogger.logger.level = cl.config['log_level']
+
+logger = RejoinLogger.logger
 
 logger.info('========== Starting Patient Rejoin Matchbox Scanner ==========')
 logger.info('SCANNER | Log file written to log/patient_rejoin_matchbox_scanner.log.')
