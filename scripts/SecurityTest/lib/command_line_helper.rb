@@ -29,6 +29,14 @@ class CommandLineHelper
         options[:iv] = iv
       end
 
+      opts.on('-e s', '--env=s', 'The environment to run the script') do |env|
+        options[:env] = env
+      end
+
+      opts.on('-p s', '--path=s', 'The path for the configuration file') do |path|
+        options[:path] = path
+      end
+
     end
 
     begin
