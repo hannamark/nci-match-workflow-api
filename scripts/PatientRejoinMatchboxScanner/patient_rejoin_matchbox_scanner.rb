@@ -15,11 +15,12 @@ cl = ConfigLoader.new(clh.options[:configPath], clh.options[:environment])
 dirname = File.dirname(cl.config['log_filepath'])
 FileUtils.mkdir_p dirname unless File.exist?(dirname)
 
-RejoinLogger.logger = Logger.new(cl.config['log_filepath'], 3, 100 * 1024 * 1024)
-
-logger = RejoinLogger.logger
+logger = Logger.new(cl.config['log_filepath'], 3, 100 * 1024 * 1024)
 
 logger.level = cl.config['log_level']
+
+Mongo::Logger.logger = logger
+Mongo::Logger.logger.level = logger.level
 
 logger.info('========== Starting Patient Rejoin Matchbox Scanner ==========')
 logger.info('SCANNER | Log file written to log/patient_rejoin_matchbox_scanner.log.')
