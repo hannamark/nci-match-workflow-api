@@ -17,9 +17,9 @@ FileUtils.mkdir_p dirname unless File.exist?(dirname)
 
 RejoinLogger.logger = Logger.new(cl.config['log_filepath'], 3, 100 * 1024 * 1024)
 
-RejoinLogger.logger.level = cl.config['log_level']
-
 logger = RejoinLogger.logger
+
+logger.level = cl.config['log_level']
 
 logger.info('========== Starting Patient Rejoin Matchbox Scanner ==========')
 logger.info('SCANNER | Log file written to log/patient_rejoin_matchbox_scanner.log.')
