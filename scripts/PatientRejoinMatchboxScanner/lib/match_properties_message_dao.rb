@@ -7,12 +7,14 @@ require "#{File.dirname(__FILE__)}/rejoin_logger"
 
 
 class MatchPropertiesMessageDao
+  include RejoinLogger
 
   def initialize(db_config)
     @hosts = ConfigHelper.get_prop(db_config, 'database', 'hosts', ['127.0.0.1:27017'])
     @dbname = ConfigHelper.get_prop(db_config, 'database', 'dbname', 'match')
     @username = ConfigHelper.get_prop(db_config, 'database', 'username', nil)
     @password = ConfigHelper.get_prop(db_config, 'database', 'password', nil)
+    RejoinLogger.logger.debug("SCANNER | getting value as #{@username} and #{@password}")
     @client = Mongo::Client.new(@hosts, :database => @dbname, :user => @username, :password => @password)
     @security = SecurityUtil::AES.new(ConfigHelper.get_prop(db_config, 'security', 'password', "password64Base"),
                                       ConfigHelper.get_prop(db_config, 'security', 'salt', "salt"),
