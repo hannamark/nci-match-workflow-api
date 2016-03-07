@@ -8,7 +8,7 @@ module RejoinLogger
     attr_accessor :logger
 
     def logger
-      @logger ||= Logger.new(STDOUT)
+      @logger = Logger.new(STDOUT) unless !@logger.nil?
     end
 
     def logger=(logger)
