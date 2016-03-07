@@ -16,7 +16,7 @@ RSpec.describe EcogAPIClient, '#send_patient_eligible_for_rejoin' do
 
   context 'with a bad input parameter' do
     it 'should raise an ArgumentError' do
-      client = EcogAPIClient.new(@api_config)
+      client = EcogAPIClient.new(@api_config, Logger.new(STDOUT))
       expect { client.send_patient_eligible_for_rejoin }.to raise_error(ArgumentError)
       expect { client.send_patient_eligible_for_rejoin(nil) }.to raise_error(ArgumentError)
       expect { client.send_patient_eligible_for_rejoin([]) }.to raise_error(ArgumentError)
@@ -32,7 +32,7 @@ RSpec.describe EcogAPIClient, '#send_patient_eligible_for_rejoin' do
                :headers => {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip, deflate', 'Content-Length'=>'9', 'Content-Type'=>'application/json', 'User-Agent'=>'Ruby'}).
           to_return(:status => 200, :body => '{ "status" : "SUCCESS", "message" : "This message have been recorded." }', :headers => {})
 
-      client = EcogAPIClient.new(@api_config)
+      client = EcogAPIClient.new(@api_config, Logger.new(STDOUT))
       response = client.send_patient_eligible_for_rejoin(['12345'])
 
       expect(response).to be_instance_of(String)
@@ -47,7 +47,7 @@ RSpec.describe EcogAPIClient, '#send_patient_eligible_for_rejoin' do
                :headers => {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip, deflate', 'Content-Length'=>'9', 'Content-Type'=>'application/json', 'User-Agent'=>'Ruby'}).
           to_return(:status => 200, :body => '{ "status" : "SUCCESS", "message" : "This message have been recorded." }', :headers => {})
 
-      client = EcogAPIClient.new({ 'ecog_api' => {} })
+      client = EcogAPIClient.new({ 'ecog_api' => {} }, Logger.new(STDOUT))
       response = client.send_patient_eligible_for_rejoin(['12345'])
 
       expect(response).to be_instance_of(String)
@@ -62,7 +62,7 @@ RSpec.describe EcogAPIClient, '#send_patient_eligible_for_rejoin' do
                :headers => {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip, deflate', 'Content-Length'=>'19', 'Content-Type'=>'application/json', 'User-Agent'=>'Ruby'}).
           to_return(:status => 200, :body => '{ "status" : "SUCCESS", "message" : "This message have been recorded." }', :headers => {})
 
-      client = EcogAPIClient.new(@api_config)
+      client = EcogAPIClient.new(@api_config, Logger.new(STDOUT))
       response = client.send_patient_eligible_for_rejoin(['123', '456', '789'])
 
       expect(response).to be_instance_of(String)
@@ -77,7 +77,7 @@ RSpec.describe EcogAPIClient, '#send_patient_eligible_for_rejoin' do
                :headers => {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip, deflate', 'Content-Length'=>'19', 'Content-Type'=>'application/json', 'User-Agent'=>'Ruby'}).
           to_return(:status => 500, :body => '', :headers => {})
 
-      client = EcogAPIClient.new(@api_config)
+      client = EcogAPIClient.new(@api_config, Logger.new(STDOUT))
       expect { client.send_patient_eligible_for_rejoin(['123', '456', '789']) }.to raise_error(RestClient::InternalServerError)
     end
   end
@@ -89,7 +89,7 @@ RSpec.describe EcogAPIClient, '#send_patient_eligible_for_rejoin' do
                :headers => {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip, deflate', 'Content-Length'=>'19', 'Content-Type'=>'application/json', 'User-Agent'=>'Ruby'}).
           to_return(:status => 404, :body => '', :headers => {})
 
-      client = EcogAPIClient.new(@api_config)
+      client = EcogAPIClient.new(@api_config, Logger.new(STDOUT))
       expect { client.send_patient_eligible_for_rejoin(['123', '456', '789']) }.to raise_error(RestClient::ResourceNotFound)
     end
   end
@@ -101,7 +101,7 @@ RSpec.describe EcogAPIClient, '#send_patient_eligible_for_rejoin' do
                :headers => {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip, deflate', 'Content-Length'=>'19', 'Content-Type'=>'application/json', 'User-Agent'=>'Ruby'}).
           to_return(:status => 400, :body => '', :headers => {})
 
-      client = EcogAPIClient.new(@api_config)
+      client = EcogAPIClient.new(@api_config, Logger.new(STDOUT))
       expect { client.send_patient_eligible_for_rejoin(['123', '456', '789']) }.to raise_error(RestClient::BadRequest)
     end
   end

@@ -9,7 +9,7 @@ class EcogRejoinSender
 
   def send(eligible_patients)
     @logger.info("SCANNER | Sending ECOG patient(s) #{eligible_patients[:patient_sequence_numbers]} eligible to rejoin Matchbox ...")
-    EcogAPIClient.new(@config).send_patient_eligible_for_rejoin(eligible_patients[:patient_sequence_numbers])
+    EcogAPIClient.new(@config, @logger).send_patient_eligible_for_rejoin(eligible_patients[:patient_sequence_numbers])
     @logger.info("SCANNER | Sending ECOG patient(s) #{eligible_patients[:patient_sequence_numbers]} eligible to rejoin Matchbox complete.")
     save(eligible_patients)
   end
