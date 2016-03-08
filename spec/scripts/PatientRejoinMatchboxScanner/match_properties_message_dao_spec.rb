@@ -14,7 +14,7 @@ RSpec.describe MatchPropertiesMessageDao do
     @encrypted_string = @security.encrypt(@password_string)
     @decrypted_string = @security.decrypt(@encrypted_string)
 
-    @property = MatchPropertiesMessageDao.new(config_loader.config, Logger.new(STDOUT))
+    @property = MatchPropertiesMessageDao.new(config_loader.config)
 
     @client = Mongo::Client.new(['127.0.0.1:27017'], :database => 'match')
     @client[:matchPropertiesMessage].insert_one({_id: 'username', value: BSON::Binary.new(@encrypted_string)})
@@ -31,11 +31,11 @@ RSpec.describe MatchPropertiesMessageDao do
     end
 
     it 'should handle null on creation' do
-      expect(MatchPropertiesMessageDao.new(nil, Logger.new(STDOUT))).to be_truthy
+      expect(MatchPropertiesMessageDao.new(nil)).to be_truthy
     end
 
     it 'should handle an empty string on creation' do
-      expect(MatchPropertiesMessageDao.new('', Logger.new(STDOUT))).to be_truthy
+      expect(MatchPropertiesMessageDao.new('')).to be_truthy
     end
 
   end
