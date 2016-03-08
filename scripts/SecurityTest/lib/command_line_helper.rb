@@ -29,7 +29,7 @@ class CommandLineHelper
         options[:iv] = iv
       end
 
-      opts.on('-e s', '--env=s', 'The environment to run the script') do |env|
+      opts.on('-e s', '--env=s', 'The environment to run the script {dev|test}') do |env|
         options[:env] = env
       end
 
