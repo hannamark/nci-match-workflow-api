@@ -1,0 +1,8 @@
+development:
+  database_config_path: ../config/mongoid-match-local.yml
+  log_level: DEBUG
+  log_filepath: log/security_util_dev.log
+prodtest:
+  database_config_path: /local/content/ncimatch/conf/ruby/mongoid-match-prodtest.yml
+  log_level: DEBUG
+  log_filepath: /local/content/ncimatch/log/security_util_prodtest.log
