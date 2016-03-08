@@ -33,10 +33,6 @@ class CommandLineHelper
         options[:env] = env
       end
 
-      opts.on('-p s', '--path=s', 'The path for the configuration file') do |path|
-        options[:path] = path
-      end
-
     end
 
     begin

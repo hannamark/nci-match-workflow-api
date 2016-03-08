@@ -1,5 +1,4 @@
 require 'mongo'
-require "#{File.dirname(__FILE__)}/../lib/command_line_helper"
 require "#{File.dirname(__FILE__)}/../lib/security_util"
 
 class MongoClient
@@ -9,8 +8,19 @@ class MongoClient
   end
 
   def find_match_properties(key)
-    value = @client[:matchPropertiesMessage].find(:_id => key).first
-    return value
+    begin
+      value = @client[:matchPropertiesMessage].find(:_id => key).first
+
+    if !value.nil?
+      return value
+    else
+      p 'key did not match any value in the database'
+    end
+
+    rescue ArgumentError, ThreadError => error
+      ''
+    end
+
   end
 
 end

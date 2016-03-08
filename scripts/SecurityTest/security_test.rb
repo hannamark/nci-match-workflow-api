@@ -15,7 +15,7 @@ class SecurityTest
     iv = @command_line_helper.options[:iv]
     SecurityLogger.new({:log_filepath => "application.log", :log_level => Logger::DEBUG})
     @security = SecurityUtil::AES.new(password,salt,iv)
-    @config_loader = ConfigLoader.new(@command_line_helper.options[:path],@command_line_helper.options[:env])
+    @config_loader = SecurityConfigLoader.new(@command_line_helper.options[:env])
   end
 
   def run
