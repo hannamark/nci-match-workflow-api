@@ -2,6 +2,9 @@ require "#{File.dirname(__FILE__)}/ecog_api_client"
 
 class EcogRejoinSender
 
+  @ecog_username_key = 'ecog.post.patient.rerun.username'
+  @ecog_password_key = 'ecog.post.patient.rerun.password'
+
   def initialize(logger, config)
     @logger = logger
     @config = config
@@ -9,7 +12,9 @@ class EcogRejoinSender
 
   def send(eligible_patients)
     @logger.info("SCANNER | Sending ECOG patient(s) #{eligible_patients[:patient_sequence_numbers]} eligible to rejoin Matchbox ...")
-    EcogAPIClient.new(@config).send_patient_eligible_for_rejoin(eligible_patients[:patient_sequence_numbers])
+    matchPropertyDao = MatchPropertiesMessageDao.new(@config)
+    EcogAPIClient.new(@config, matchPropertyDao.get_value(@ecog_username_key), matchPropertyDao.get_value(@ecog_password_key))
+        .send_patient_eligible_for_rejoin(eligible_patients[:patient_sequence_numbers])
     @logger.info("SCANNER | Sending ECOG patient(s) #{eligible_patients[:patient_sequence_numbers]} eligible to rejoin Matchbox complete.")
     save(eligible_patients)
   end

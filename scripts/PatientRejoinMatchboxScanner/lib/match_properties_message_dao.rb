@@ -27,8 +27,4 @@ class MatchPropertiesMessageDao
     ''
   end
 
-  def close
-    @client.close
-  end
-
 end

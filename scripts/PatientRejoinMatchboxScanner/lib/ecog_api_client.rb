@@ -1,23 +1,17 @@
 require 'rest-client'
+require 'active_support/core_ext/object/blank'
 
 require "#{File.dirname(__FILE__)}/config_helper"
 require "#{File.dirname(__FILE__)}/match_properties_message_dao"
 
 class EcogAPIClient
 
-  @ecog_username_key = 'ecog.post.patient.rerun.username'
-  @ecog_password_key = 'ecog.post.patient.rerun.password'
-
-  def initialize(api_config)
+  def initialize(api_config, username, password)
     @scheme = ConfigHelper.get_prop(api_config, 'ecog_api', 'scheme', 'http')
     @hosts = ConfigHelper.get_prop(api_config, 'ecog_api', 'hosts', ['127.0.0.1:3000'])
     @context = ConfigHelper.get_prop(api_config, 'ecog_api', 'context', '/MatchInformaticsLayer')
-    match_properties = MatchPropertiesMessageDao.new(api_config)
-    @username = match_properties.get_value(@ecog_username_key)
-    @password = match_properties.get_value(@ecog_password_key)
-    @username = ConfigHelper.get_prop(api_config, 'ecog_api', 'username', nil) if @username.blank?
-    @password = ConfigHelper.get_prop(api_config, 'ecog_api', 'password', nil) if @password.blank?
-    match_properties.close
+    @username = !username.blank? ? username : ConfigHelper.get_prop(api_config, 'ecog_api', 'username', nil)
+    @password = !password.blank? ? password : ConfigHelper.get_prop(api_config, 'ecog_api', 'password', nil)
   end
 
   def send_patient_eligible_for_rejoin(patientSequenceNumbers)

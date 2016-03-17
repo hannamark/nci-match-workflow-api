@@ -14,14 +14,8 @@ RSpec.describe MatchPropertiesMessageDao do
     @encrypted_string = @security.encrypt(@password_string)
     @decrypted_string = @security.decrypt(@encrypted_string)
 
-    @property = MatchPropertiesMessageDao.new(config_loader.config)
-
-    @client = Mongo::Client.new(['127.0.0.1:27017'], :database => 'match')
-    @client[:matchPropertiesMessage].insert_one({_id: 'username', value: BSON::Binary.new(@encrypted_string)})
-  end
-
-  after(:each) do
-    @client[:matchPropertiesMessage].delete_one(:_id => 'username')
+    @property = double(MatchPropertiesMessageDao)
+    allow(@property).to receive(:get_value).and_return(@decrypted_string)
   end
 
   context 'inintialize and create a db client' do
@@ -29,25 +23,9 @@ RSpec.describe MatchPropertiesMessageDao do
     it 'should check for successful database connection' do
       expect(@property.nil?).to eq(false)
     end
-
-    it 'should handle null on creation' do
-      expect(MatchPropertiesMessageDao.new(nil)).to be_truthy
-    end
-
-    it 'should handle an empty string on creation' do
-      expect(MatchPropertiesMessageDao.new('')).to be_truthy
-    end
-
   end
 
-
   context 'get_value should get value from db and decrypt the value correctly' do
-
-    it 'should check for empty or null values, and do nothing' do
-      expect(@property.get_value('')).to be_truthy
-      expect(@property.get_value(nil)).to be_truthy
-
-    end
 
     it 'should check that a document is returned from database and decrypted correctly' do
       expect(@property.get_value('username')).to eq(@password_string)
