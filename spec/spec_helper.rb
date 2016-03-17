@@ -24,7 +24,6 @@ require 'sinatra'
 require 'rspec'
 require 'rack/test'
 require 'factory_girl'
-require 'database_cleaner'
 require 'codeclimate-test-reporter'
 SimpleCov.start do #Must be first thing for codeclimate to work
   formatter SimpleCov::Formatter::MultiFormatter[
@@ -49,15 +48,6 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     FactoryGirl.find_definitions
-    DatabaseCleaner.strategy = :truncation
-  end
-
-  config.before(:each, :database) do
-    DatabaseCleaner.start
-  end
-
-  config.after(:each, :database) do
-    DatabaseCleaner.clean
   end
 
   # rspec-expectations config goes here. You can use an alternate

@@ -3,7 +3,6 @@ require "#{File.dirname(__FILE__)}/../../../app/model/logging"
 
 describe 'Logging behaviour' do
   before do
-    # Mongoid.load!(File.dirname(__FILE__) + '/../../../config/mongoid-test.yml', :test)
 
     @logs = []
     log = Logging.new({
