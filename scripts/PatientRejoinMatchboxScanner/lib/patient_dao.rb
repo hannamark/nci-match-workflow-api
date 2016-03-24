@@ -16,7 +16,7 @@ class PatientDao
 
   ###
   # Patients are eligible for rejoin is there current status is OFF_TRIAL_NO_TA_AVAILABLE or REJOIN_REQUESTED, current step
-  # is 0, and the specimen received date is within 6 months lof the current time the rejoin scan.
+  # is 0, and the collected date or specimen received date is within 5 months of the current time the rejoin performed the scan.
   ###
   def get_off_trial_patients
     results = { 'off_trial_patients' => [], 'off_trial_patients_docs' => [] }
@@ -29,8 +29,8 @@ class PatientDao
 
       specimen_received_message = DataElementLocator.get_specimen_received_message(biopsy)
       next if specimen_received_message.nil?
-      cut_off_date = DateTime.now << 6
-      next if specimen_received_message['reportedDate'].utc < cut_off_date.to_time.utc
+      cut_off_date = DateTime.now << 5
+      next if (specimen_received_message.key?('collectedDate') && specimen_received_message['collectedDate'].utc < cut_off_date.to_time.utc) || (specimen_received_message['reportedDate'].utc < cut_off_date.to_time.utc)
 
       next_generation_sequence = DataElementLocator.get_last_element(biopsy['nextGenerationSequences'])
       next if next_generation_sequence.nil?
