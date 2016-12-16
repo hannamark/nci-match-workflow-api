@@ -10,13 +10,15 @@ class EcogRejoinSender
     @config = config
   end
 
-  def send(eligible_patients)
+  def send(eligible_patients, save=true)
     @logger.info("SCANNER | Sending ECOG patient(s) #{eligible_patients[:patient_sequence_numbers]} eligible to rejoin Matchbox ...")
     matchPropertyDao = MatchPropertiesMessageDao.new(@config)
     EcogAPIClient.new(@config, matchPropertyDao.get_value(@ecog_username_key), matchPropertyDao.get_value(@ecog_password_key))
         .send_patient_eligible_for_rejoin(eligible_patients[:patient_sequence_numbers])
     @logger.info("SCANNER | Sending ECOG patient(s) #{eligible_patients[:patient_sequence_numbers]} eligible to rejoin Matchbox complete.")
-    save(eligible_patients)
+    if (save)
+      save(eligible_patients)
+    end
   end
 
   def save(eligible_patients)
