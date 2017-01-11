@@ -14,6 +14,10 @@ class PatientDao
     @client = Mongo::Client.new(@hosts, :database => @dbname, :user => @username, :password => @password)
   end
 
+  def get(patient_sequence_number)
+    return @client[:patient].find(:patientSequenceNumber => patient_sequence_number, :currentPatientStatus => { '$in' => %w(OFF_TRIAL_NO_TA_AVAILABLE REJOIN_REQUESTED) }).first
+  end
+
   ###
   # Patients are eligible for rejoin if the current status is OFF_TRIAL_NO_TA_AVAILABLE / REJOIN_REQUESTED, current step number
   # is 0, and the collected date or specimen received date is within 5 months of the current time the rejoin performed the scan.

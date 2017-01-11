@@ -27,14 +27,21 @@ begin
   logger.debug("SCANNER | Match API configuration #{cl.redacted_config['match_api']}")
   logger.debug("SCANNER | ECOG API configuration #{cl.redacted_config['ecog_api']}")
 
-  # TODO: Get patient sequence numbers from input
-  patient_sequence_numbers = []
-  if patient_sequence_numbers.size > 0
+  dao = PatientDao.new(cl.config)
+
+  patient_sequence_numbers = ARGV[0].split(',')
+  logger.info("SCANNER | Received patient sequence numbers #{patient_sequence_numbers} from the command line.")
+
+  eligible_patients = { :patient_sequence_numbers => patient_sequence_numbers }
+  if eligible_patients[:patient_sequence_numbers].size > 0
     EcogRejoinSender.new(logger, cl.config).send(eligible_patients, false)
   end
-  patient_sequence_numbers.each do |patient_sequence_number|
-    logger.info "Querying database for #{patient_sequence_number} ..."
+  eligible_patients[:patient_sequence_numbers].each do |patient_sequence_number|
+    logger.info("SCANNER | Querying database for #{patient_sequence_number} ...")
     patient_doc = dao.get(patient_sequence_number)
+    if patient_doc.nil?
+      next
+    end
     logger.info patient_doc
     patient_doc[:patientRejoinTriggers][patient_doc[:patientRejoinTriggers].size - 1][:dateSentToECOG] = DateTime.now
     rejoin_requested_trigger = {
@@ -54,7 +61,7 @@ begin
     end
   end
 rescue => error
-  logger.error("SCANNER | Failed to complete scan because an exception was thrown. Message: '#{error}'")
+  logger.error("SCANNER | Failed to complete rejoin message sending because an exception was thrown. Message: '#{error}'")
   logger.error 'SCANNER | Printing backtrace:'
   error.backtrace.each do |line|
     logger.error "SCANNER |   #{line}"
