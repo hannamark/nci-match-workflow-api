@@ -21,6 +21,29 @@ class SimulateAssignmentAnalyzer
       return false, @off_trial_patient
     end
 
+    not_eligible_assignment_index = -1
+    @off_trial_patient['patientTriggers'].each do |trigger|
+      if trigger['patientStatus'] == 'PENDING_CONFIRMATION'
+        not_eligible_assignment_index += 1
+      end
+      if trigger['patientStatus'] == 'NOT_ELIGIBLE'
+        assignment_report = (@off_trial_patient['patientAssignments'])[not_eligible_assignment_index]
+        selected_treatment_arm = assignment_report['treatmentArm']
+        matching_arm_index = -1
+        eligible_arms.each_with_index do |eligible_arm, index|
+          if eligible_arm['treatmentArmId'] == selected_treatment_arm['_id'] && eligible_arm['treatmentArmVersion'] == selected_treatment_arm['version']
+            matching_arm_index = index
+            break;
+          end
+        end
+        eligible_arms.delete_at(matching_arm_index) unless matching_arm_index == -1
+      end
+    end
+
+    if eligible_arms.size == 0
+      return false, @off_trial_patient
+    end
+
     update_trigger_with_eligible_arms(eligible_arms)
     return true, @off_trial_patient
   end
