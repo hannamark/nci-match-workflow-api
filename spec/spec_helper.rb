@@ -24,15 +24,6 @@ require 'sinatra'
 require 'rspec'
 require 'rack/test'
 require 'factory_girl'
-require 'codeclimate-test-reporter'
-SimpleCov.start do #Must be first thing for codeclimate to work
-  formatter SimpleCov::Formatter::MultiFormatter[
-            SimpleCov::Formatter::HTMLFormatter,
-            CodeClimate::TestReporter::Formatter,
-            # SimpleCov::Formatter::JSONFormatter,
-            SimpleCov::Formatter::RcovFormatter
-            ]
-  end
 
 module RSpecMixin
   include Rack::Test::Methods

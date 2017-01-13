@@ -24,5 +24,4 @@ group :dev,:test do
   gem 'simplecov-json', '0.2'
   gem 'simplecov-rcov', '0.2.3'
   gem 'factory_girl'
-  gem "codeclimate-test-reporter", require: nil
 end

@@ -1,8 +1,6 @@
 NCI-MATCHBox Workflow API
 =========================
 [![Build Status](https://travis-ci.org/CBIIT/nci-match-workflow-api.svg?branch=master)](https://travis-ci.org/CBIIT/nci-match-workflow-api)
-[![Code Climate](https://codeclimate.com/github/CBIIT/nci-match-workflow-api/badges/gpa.svg)](https://codeclimate.com/github/CBIIT/nci-match-workflow-api)
-[![Test Coverage](https://codeclimate.com/github/CBIIT/nci-match-workflow-api/badges/coverage.svg)](https://codeclimate.com/github/CBIIT/nci-match-workflow-api/coverage)
 
 This repository contains the codebase for the following functionalities.
 * Storing change request documents.
