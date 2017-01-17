@@ -1,7 +1,7 @@
 NCI-MATCHBox Workflow API
 =========================
 [![Build Status](https://travis-ci.org/CBIIT/nci-match-workflow-api.svg?branch=master)](https://travis-ci.org/CBIIT/nci-match-workflow-api)
-
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/54613ca02111417e98e1d114f007d052)](https://www.codacy.com/app/FNLCR/CTRP_4x_misc?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CBIIT/CTRP_4x_misc&amp;utm_campaign=Badge_Grade)
 This repository contains the codebase for the following functionalities.
 * Storing change request documents.
 * Handling trial rejoin request.
